@@ -1,0 +1,168 @@
+   1               		.file	"constants.c"
+   2               	__SP_H__ = 0x3e
+   3               	__SP_L__ = 0x3d
+   4               	__SREG__ = 0x3f
+   5               	__RAMPZ__ = 0x3b
+   6               	__CCP__ = 0x34
+   7               	__tmp_reg__ = 0
+   8               	__zero_reg__ = 1
+   9               		.text
+  10               	.Ltext0:
+  11               		.cfi_sections	.debug_frame
+  12               	.global	RC
+  13               		.section	.rodata
+  14               		.p2align	1
+  17               	RC:
+  18 0000 00        		.byte	0
+  19 0001 00        		.byte	0
+  20 0002 00        		.byte	0
+  21 0003 00        		.byte	0
+  22 0004 00        		.byte	0
+  23 0005 00        		.byte	0
+  24 0006 00        		.byte	0
+  25 0007 00        		.byte	0
+  26 0008 44        		.byte	68
+  27 0009 73        		.byte	115
+  28 000a 70        		.byte	112
+  29 000b 03        		.byte	3
+  30 000c 2E        		.byte	46
+  31 000d 8A        		.byte	-118
+  32 000e 19        		.byte	25
+  33 000f 13        		.byte	19
+  34 0010 D0        		.byte	-48
+  35 0011 31        		.byte	49
+  36 0012 9F        		.byte	-97
+  37 0013 29        		.byte	41
+  38 0014 22        		.byte	34
+  39 0015 38        		.byte	56
+  40 0016 09        		.byte	9
+  41 0017 A4        		.byte	-92
+  42 0018 89        		.byte	-119
+  43 0019 6C        		.byte	108
+  44 001a 4E        		.byte	78
+  45 001b EC        		.byte	-20
+  46 001c 98        		.byte	-104
+  47 001d FA        		.byte	-6
+  48 001e 2E        		.byte	46
+  49 001f 08        		.byte	8
+  50 0020 77        		.byte	119
+  51 0021 13        		.byte	19
+  52 0022 D0        		.byte	-48
+  53 0023 38        		.byte	56
+  54 0024 E6        		.byte	-26
+  55 0025 21        		.byte	33
+  56 0026 28        		.byte	40
+  57 0027 45        		.byte	69
+  58 0028 6C        		.byte	108
+  59 0029 0C        		.byte	12
+  60 002a E9        		.byte	-23
+  61 002b 34        		.byte	52
+  62 002c CF        		.byte	-49
+  63 002d 66        		.byte	102
+  64 002e 54        		.byte	84
+  65 002f BE        		.byte	-66
+  66 0030 B1        		.byte	-79
+  67 0031 5C        		.byte	92
+  68 0032 95        		.byte	-107
+  69 0033 FD        		.byte	-3
+  70 0034 78        		.byte	120
+  71 0035 4F        		.byte	79
+  72 0036 F8        		.byte	-8
+  73 0037 7E        		.byte	126
+  74 0038 AA        		.byte	-86
+  75 0039 43        		.byte	67
+  76 003a AC        		.byte	-84
+  77 003b F1        		.byte	-15
+  78 003c 51        		.byte	81
+  79 003d 08        		.byte	8
+  80 003e 84        		.byte	-124
+  81 003f 85        		.byte	-123
+  82 0040 54        		.byte	84
+  83 0041 3C        		.byte	60
+  84 0042 32        		.byte	50
+  85 0043 25        		.byte	37
+  86 0044 2F        		.byte	47
+  87 0045 D3        		.byte	-45
+  88 0046 82        		.byte	-126
+  89 0047 C8        		.byte	-56
+  90 0048 0D        		.byte	13
+  91 0049 61        		.byte	97
+  92 004a E3        		.byte	-29
+  93 004b E0        		.byte	-32
+  94 004c 95        		.byte	-107
+  95 004d 11        		.byte	17
+  96 004e A5        		.byte	-91
+  97 004f 64        		.byte	100
+  98 0050 99        		.byte	-103
+  99 0051 23        		.byte	35
+ 100 0052 0C        		.byte	12
+ 101 0053 CA        		.byte	-54
+ 102 0054 99        		.byte	-103
+ 103 0055 A3        		.byte	-93
+ 104 0056 B5        		.byte	-75
+ 105 0057 D3        		.byte	-45
+ 106 0058 DD        		.byte	-35
+ 107 0059 50        		.byte	80
+ 108 005a 7C        		.byte	124
+ 109 005b C9        		.byte	-55
+ 110 005c B7        		.byte	-73
+ 111 005d 29        		.byte	41
+ 112 005e AC        		.byte	-84
+ 113 005f C0        		.byte	-64
+ 114               	.global	S1
+ 115               		.p2align	1
+ 118               	S1:
+ 119 0060 0B        		.byte	11
+ 120 0061 07        		.byte	7
+ 121 0062 03        		.byte	3
+ 122 0063 02        		.byte	2
+ 123 0064 0F        		.byte	15
+ 124 0065 0D        		.byte	13
+ 125 0066 08        		.byte	8
+ 126 0067 09        		.byte	9
+ 127 0068 0A        		.byte	10
+ 128 0069 06        		.byte	6
+ 129 006a 04        		.byte	4
+ 130 006b 00        		.byte	0
+ 131 006c 05        		.byte	5
+ 132 006d 0E        		.byte	14
+ 133 006e 0C        		.byte	12
+ 134 006f 01        		.byte	1
+ 135               	.global	S0
+ 136               		.p2align	1
+ 139               	S0:
+ 140 0070 0B        		.byte	11
+ 141 0071 0F        		.byte	15
+ 142 0072 03        		.byte	3
+ 143 0073 02        		.byte	2
+ 144 0074 0A        		.byte	10
+ 145 0075 0C        		.byte	12
+ 146 0076 09        		.byte	9
+ 147 0077 01        		.byte	1
+ 148 0078 06        		.byte	6
+ 149 0079 07        		.byte	7
+ 150 007a 08        		.byte	8
+ 151 007b 00        		.byte	0
+ 152 007c 0E        		.byte	14
+ 153 007d 05        		.byte	5
+ 154 007e 0D        		.byte	13
+ 155 007f 04        		.byte	4
+ 156               		.text
+ 157               	.Letext0:
+ 158               		.file 1 "constants.c"
+ 159               		.file 2 "/usr/lib/avr/include/stdint.h"
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 constants.c
+     /tmp/ccnMSl5g.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccnMSl5g.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccnMSl5g.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccnMSl5g.s:5      *ABS*:000000000000003b __RAMPZ__
+     /tmp/ccnMSl5g.s:6      *ABS*:0000000000000034 __CCP__
+     /tmp/ccnMSl5g.s:7      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccnMSl5g.s:8      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccnMSl5g.s:17     .rodata:0000000000000000 RC
+     /tmp/ccnMSl5g.s:118    .rodata:0000000000000060 S1
+     /tmp/ccnMSl5g.s:139    .rodata:0000000000000070 S0
+
+UNDEFINED SYMBOLS
+__do_copy_data

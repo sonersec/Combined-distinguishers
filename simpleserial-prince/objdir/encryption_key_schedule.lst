@@ -1,0 +1,207 @@
+   1               		.file	"encryption_key_schedule.c"
+   2               	__SP_H__ = 0x3e
+   3               	__SP_L__ = 0x3d
+   4               	__SREG__ = 0x3f
+   5               	__RAMPZ__ = 0x3b
+   6               	__CCP__ = 0x34
+   7               	__tmp_reg__ = 0
+   8               	__zero_reg__ = 1
+   9               		.text
+  10               	.Ltext0:
+  11               		.cfi_sections	.debug_frame
+  12               	.global	RunEncryptionKeySchedule
+  14               	RunEncryptionKeySchedule:
+  15               	.LFB0:
+  16               		.file 1 "encryption_key_schedule.c"
+   1:encryption_key_schedule.c **** /*
+   2:encryption_key_schedule.c ****  *
+   3:encryption_key_schedule.c ****  * University of Luxembourg
+   4:encryption_key_schedule.c ****  * Laboratory of Algorithmics, Cryptology and Security (LACS)
+   5:encryption_key_schedule.c ****  *
+   6:encryption_key_schedule.c ****  * FELICS - Fair Evaluation of Lightweight Cryptographic Systems
+   7:encryption_key_schedule.c ****  *
+   8:encryption_key_schedule.c ****  * Copyright (C) 2015 University of Luxembourg
+   9:encryption_key_schedule.c ****  *
+  10:encryption_key_schedule.c ****  * Written in 2015 by Daniel Dinu <dumitru-daniel.dinu@uni.lu>
+  11:encryption_key_schedule.c ****  *
+  12:encryption_key_schedule.c ****  * This file is part of FELICS.
+  13:encryption_key_schedule.c ****  *
+  14:encryption_key_schedule.c ****  * FELICS is free software; you can redistribute it and/or modify
+  15:encryption_key_schedule.c ****  * it under the terms of the GNU General Public License as published by
+  16:encryption_key_schedule.c ****  * the Free Software Foundation; either version 3 of the License, or
+  17:encryption_key_schedule.c ****  * (at your option) any later version.
+  18:encryption_key_schedule.c ****  *
+  19:encryption_key_schedule.c ****  * FELICS is distributed in the hope that it will be useful,
+  20:encryption_key_schedule.c ****  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  21:encryption_key_schedule.c ****  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  22:encryption_key_schedule.c ****  * GNU General Public License for more details.
+  23:encryption_key_schedule.c ****  *
+  24:encryption_key_schedule.c ****  * You should have received a copy of the GNU General Public License
+  25:encryption_key_schedule.c ****  * along with this program; if not, see <http://www.gnu.org/licenses/>.
+  26:encryption_key_schedule.c ****  *
+  27:encryption_key_schedule.c ****  */
+  28:encryption_key_schedule.c **** 
+  29:encryption_key_schedule.c **** #include <stdint.h>
+  30:encryption_key_schedule.c **** 
+  31:encryption_key_schedule.c **** #include "cipher.h"
+  32:encryption_key_schedule.c **** #include "constants.h"
+  33:encryption_key_schedule.c **** 
+  34:encryption_key_schedule.c **** 
+  35:encryption_key_schedule.c **** void RunEncryptionKeySchedule(uint8_t *key, uint8_t *roundKeys)
+  36:encryption_key_schedule.c **** {
+  17               		.loc 1 36 0
+  18               		.cfi_startproc
+  19               	.LVL0:
+  20 0000 0F93      		push r16
+  21               	.LCFI0:
+  22               		.cfi_def_cfa_offset 4
+  23               		.cfi_offset 16, -3
+  24 0002 1F93      		push r17
+  25               	.LCFI1:
+  26               		.cfi_def_cfa_offset 5
+  27               		.cfi_offset 17, -4
+  28 0004 CF93      		push r28
+  29               	.LCFI2:
+  30               		.cfi_def_cfa_offset 6
+  31               		.cfi_offset 28, -5
+  32 0006 DF93      		push r29
+  33               	.LCFI3:
+  34               		.cfi_def_cfa_offset 7
+  35               		.cfi_offset 29, -6
+  36               	/* prologue: function */
+  37               	/* frame size = 0 */
+  38               	/* stack size = 4 */
+  39               	.L__stack_usage = 4
+  40 0008 FC01      		movw r30,r24
+  41 000a DB01      		movw r26,r22
+  42               	.LVL1:
+  43 000c 9C01      		movw r18,r24
+  44 000e CB01      		movw r24,r22
+  45               	.LVL2:
+  46 0010 AF01      		movw r20,r30
+  47 0012 485F      		subi r20,-8
+  48 0014 5F4F      		sbci r21,-1
+  49               		.loc 1 36 0
+  50 0016 8F01      		movw r16,r30
+  51               	.LVL3:
+  52               	.L2:
+  37:encryption_key_schedule.c **** 	uint8_t i;
+  38:encryption_key_schedule.c **** 
+  39:encryption_key_schedule.c **** 	
+  40:encryption_key_schedule.c **** 	for(i = 0; i < 8; i++)
+  41:encryption_key_schedule.c **** 	{
+  42:encryption_key_schedule.c **** 		/* Copy K0 to round keys */
+  43:encryption_key_schedule.c **** 		roundKeys[i] = key[i];
+  53               		.loc 1 43 0 discriminator 3
+  54 0018 E801      		movw r28,r16
+  55 001a 6991      		ld r22,Y+
+  56 001c 8E01      		movw r16,r28
+  57               	.LVL4:
+  58 001e EC01      		movw r28,r24
+  59 0020 6993      		st Y+,r22
+  60 0022 CE01      		movw r24,r28
+  44:encryption_key_schedule.c **** 	
+  45:encryption_key_schedule.c **** 		/* Copy K1 to round keys */
+  46:encryption_key_schedule.c **** 		roundKeys[i + 16] = key[i + 8];
+  61               		.loc 1 46 0 discriminator 3
+  62 0024 E801      		movw r28,r16
+  63 0026 6F81      		ldd r22,Y+7
+  64 0028 EC01      		movw r28,r24
+  65 002a 6F87      		std Y+15,r22
+  66               	.LVL5:
+  40:encryption_key_schedule.c **** 	{
+  67               		.loc 1 40 0 discriminator 3
+  68 002c 0417      		cp r16,r20
+  69 002e 1507      		cpc r17,r21
+  70 0030 01F4      		brne .L2
+  71 0032 8D01      		movw r16,r26
+  72               	.LVL6:
+  73 0034 085F      		subi r16,-8
+  74 0036 1F4F      		sbci r17,-1
+  75 0038 BF01      		movw r22,r30
+  76 003a 695F      		subi r22,-7
+  77 003c 7F4F      		sbci r23,-1
+  78               	.LVL7:
+  79               	.L3:
+  80 003e A901      		movw r20,r18
+  81 0040 2F5F      		subi r18,-1
+  82 0042 3F4F      		sbci r19,-1
+  83               	.LVL8:
+  47:encryption_key_schedule.c **** 	}
+  48:encryption_key_schedule.c **** 
+  49:encryption_key_schedule.c **** 
+  50:encryption_key_schedule.c **** 	/* Generate K0' */
+  51:encryption_key_schedule.c **** 	for(i = 0; i < 7; i++)
+  52:encryption_key_schedule.c **** 	{
+  53:encryption_key_schedule.c **** 		roundKeys[i + 8] = ((key[i + 1] << 7) & 0x80) ^ (key[i] >> 1);
+  84               		.loc 1 53 0 discriminator 3
+  85 0044 EA01      		movw r28,r20
+  86 0046 8981      		ldd r24,Y+1
+  87 0048 D0E8      		ldi r29,lo8(-128)
+  88 004a 8D9F      		mul r24,r29
+  89 004c C001      		movw r24,r0
+  90 004e 1124      		clr __zero_reg__
+  91 0050 EA01      		movw r28,r20
+  92 0052 9881      		ld r25,Y
+  93 0054 9695      		lsr r25
+  94 0056 8927      		eor r24,r25
+  95 0058 E801      		movw r28,r16
+  96 005a 8993      		st Y+,r24
+  97 005c 8E01      		movw r16,r28
+  98               	.LVL9:
+  51:encryption_key_schedule.c **** 	{
+  99               		.loc 1 51 0 discriminator 3
+ 100 005e 6217      		cp r22,r18
+ 101 0060 7307      		cpc r23,r19
+ 102 0062 01F4      		brne .L3
+  54:encryption_key_schedule.c **** 	}
+  55:encryption_key_schedule.c **** 
+  56:encryption_key_schedule.c **** 	roundKeys[15] = ((key[0] << 7) & 0x80) ^ (key[7] >> 1);
+ 103               		.loc 1 56 0
+ 104 0064 8081      		ld r24,Z
+ 105 0066 D0E8      		ldi r29,lo8(-128)
+ 106 0068 8D9F      		mul r24,r29
+ 107 006a C001      		movw r24,r0
+ 108 006c 1124      		clr __zero_reg__
+ 109 006e 9781      		ldd r25,Z+7
+ 110 0070 9695      		lsr r25
+ 111 0072 8927      		eor r24,r25
+ 112 0074 1F96      		adiw r26,15
+ 113 0076 8C93      		st X,r24
+ 114 0078 1F97      		sbiw r26,15
+  57:encryption_key_schedule.c **** 	roundKeys[8] = roundKeys[8] ^ ((key[7] >> 7) & 0x01);
+ 115               		.loc 1 57 0
+ 116 007a 8781      		ldd r24,Z+7
+ 117 007c 881F      		rol r24
+ 118 007e 8827      		clr r24
+ 119 0080 881F      		rol r24
+ 120 0082 1896      		adiw r26,8
+ 121 0084 9C91      		ld r25,X
+ 122 0086 1897      		sbiw r26,8
+ 123 0088 8927      		eor r24,r25
+ 124 008a 1896      		adiw r26,8
+ 125 008c 8C93      		st X,r24
+ 126               	/* epilogue start */
+  58:encryption_key_schedule.c **** }
+ 127               		.loc 1 58 0
+ 128 008e DF91      		pop r29
+ 129 0090 CF91      		pop r28
+ 130 0092 1F91      		pop r17
+ 131 0094 0F91      		pop r16
+ 132 0096 0895      		ret
+ 133               		.cfi_endproc
+ 134               	.LFE0:
+ 136               	.Letext0:
+ 137               		.file 2 "/usr/lib/avr/include/stdint.h"
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 encryption_key_schedule.c
+     /tmp/cc2YVPzj.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/cc2YVPzj.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/cc2YVPzj.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/cc2YVPzj.s:5      *ABS*:000000000000003b __RAMPZ__
+     /tmp/cc2YVPzj.s:6      *ABS*:0000000000000034 __CCP__
+     /tmp/cc2YVPzj.s:7      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/cc2YVPzj.s:8      *ABS*:0000000000000001 __zero_reg__
+     /tmp/cc2YVPzj.s:14     .text:0000000000000000 RunEncryptionKeySchedule
+
+NO UNDEFINED SYMBOLS

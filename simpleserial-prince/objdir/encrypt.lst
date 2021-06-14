@@ -1,0 +1,305 @@
+   1               		.file	"encrypt.c"
+   2               	__SP_H__ = 0x3e
+   3               	__SP_L__ = 0x3d
+   4               	__SREG__ = 0x3f
+   5               	__RAMPZ__ = 0x3b
+   6               	__CCP__ = 0x34
+   7               	__tmp_reg__ = 0
+   8               	__zero_reg__ = 1
+   9               		.text
+  10               	.Ltext0:
+  11               		.cfi_sections	.debug_frame
+  12               	.global	EncryptionPrinceCore
+  14               	EncryptionPrinceCore:
+  15               	.LFB0:
+  16               		.file 1 "encrypt.c"
+   1:encrypt.c     **** /*
+   2:encrypt.c     ****  *
+   3:encrypt.c     ****  * University of Luxembourg
+   4:encrypt.c     ****  * Laboratory of Algorithmics, Cryptology and Security (LACS)
+   5:encrypt.c     ****  *
+   6:encrypt.c     ****  * FELICS - Fair Evaluation of Lightweight Cryptographic Systems
+   7:encrypt.c     ****  *
+   8:encrypt.c     ****  * Copyright (C) 2015 University of Luxembourg
+   9:encrypt.c     ****  *
+  10:encrypt.c     ****  * Written in 2015 by Daniel Dinu <dumitru-daniel.dinu@uni.lu>
+  11:encrypt.c     ****  *
+  12:encrypt.c     ****  * This file is part of FELICS.
+  13:encrypt.c     ****  *
+  14:encrypt.c     ****  * FELICS is free software; you can redistribute it and/or modify
+  15:encrypt.c     ****  * it under the terms of the GNU General Public License as published by
+  16:encrypt.c     ****  * the Free Software Foundation; either version 3 of the License, or
+  17:encrypt.c     ****  * (at your option) any later version.
+  18:encrypt.c     ****  *
+  19:encrypt.c     ****  * FELICS is distributed in the hope that it will be useful,
+  20:encrypt.c     ****  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  21:encrypt.c     ****  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  22:encrypt.c     ****  * GNU General Public License for more details.
+  23:encrypt.c     ****  *
+  24:encrypt.c     ****  * You should have received a copy of the GNU General Public License
+  25:encrypt.c     ****  * along with this program; if not, see <http://www.gnu.org/licenses/>.
+  26:encrypt.c     ****  *
+  27:encrypt.c     ****  */
+  28:encrypt.c     **** 
+  29:encrypt.c     **** #include <stdint.h>
+  30:encrypt.c     **** 
+  31:encrypt.c     **** #include "cipher.h"
+  32:encrypt.c     **** #include "constants.h"
+  33:encrypt.c     **** #include "shared_functions.h"
+  34:encrypt.c     **** 
+  35:encrypt.c     **** 
+  36:encrypt.c     **** void EncryptionPrinceCore(uint8_t *block, uint8_t *roundKeys)
+  37:encrypt.c     **** {
+  17               		.loc 1 37 0
+  18               		.cfi_startproc
+  19               	.LVL0:
+  20 0000 EF92      		push r14
+  21               	.LCFI0:
+  22               		.cfi_def_cfa_offset 4
+  23               		.cfi_offset 14, -3
+  24 0002 FF92      		push r15
+  25               	.LCFI1:
+  26               		.cfi_def_cfa_offset 5
+  27               		.cfi_offset 15, -4
+  28 0004 0F93      		push r16
+  29               	.LCFI2:
+  30               		.cfi_def_cfa_offset 6
+  31               		.cfi_offset 16, -5
+  32 0006 1F93      		push r17
+  33               	.LCFI3:
+  34               		.cfi_def_cfa_offset 7
+  35               		.cfi_offset 17, -6
+  36 0008 CF93      		push r28
+  37               	.LCFI4:
+  38               		.cfi_def_cfa_offset 8
+  39               		.cfi_offset 28, -7
+  40 000a DF93      		push r29
+  41               	.LCFI5:
+  42               		.cfi_def_cfa_offset 9
+  43               		.cfi_offset 29, -8
+  44               	/* prologue: function */
+  45               	/* frame size = 0 */
+  46               	/* stack size = 6 */
+  47               	.L__stack_usage = 6
+  48 000c EC01      		movw r28,r24
+  49 000e 8B01      		movw r16,r22
+  38:encrypt.c     **** 	uint8_t i;
+  39:encrypt.c     **** 
+  40:encrypt.c     **** 
+  41:encrypt.c     **** 	AddRoundRoundKeyAndRoundConstant(block, roundKeys, &RC[0]);
+  50               		.loc 1 41 0
+  51 0010 40E0      		ldi r20,lo8(RC)
+  52 0012 50E0      		ldi r21,hi8(RC)
+  53 0014 0E94 0000 		call AddRoundRoundKeyAndRoundConstant
+  54               	.LVL1:
+  55 0018 E12C      		mov r14,__zero_reg__
+  56 001a F12C      		mov r15,__zero_reg__
+  57               	.LVL2:
+  58               	.L2:
+  59 001c 88E0      		ldi r24,8
+  60 001e E80E      		add r14,r24
+  61 0020 F11C      		adc r15,__zero_reg__
+  42:encrypt.c     **** 
+  43:encrypt.c     **** 	for(i = 1; i < 6; i++)
+  44:encrypt.c     **** 	{
+  45:encrypt.c     **** 		Round(block, roundKeys, &RC[8 * i]);
+  62               		.loc 1 45 0 discriminator 3
+  63 0022 A701      		movw r20,r14
+  64 0024 4050      		subi r20,lo8(-(RC))
+  65 0026 5040      		sbci r21,hi8(-(RC))
+  66 0028 B801      		movw r22,r16
+  67 002a CE01      		movw r24,r28
+  68 002c 0E94 0000 		call Round
+  69               	.LVL3:
+  43:encrypt.c     **** 	{
+  70               		.loc 1 43 0 discriminator 3
+  71 0030 88E2      		ldi r24,40
+  72 0032 E816      		cp r14,r24
+  73 0034 F104      		cpc r15,__zero_reg__
+  74 0036 01F4      		brne .L2
+  46:encrypt.c     **** 	}
+  47:encrypt.c     **** 
+  48:encrypt.c     **** 
+  49:encrypt.c     **** 	/* Middle layer - begin */
+  50:encrypt.c     **** 
+  51:encrypt.c     **** 	/* S-Layer */
+  52:encrypt.c     **** 	SLayer(block);
+  75               		.loc 1 52 0
+  76 0038 CE01      		movw r24,r28
+  77 003a 0E94 0000 		call SLayer
+  78               	.LVL4:
+  53:encrypt.c     **** 
+  54:encrypt.c     **** 	/* M-Layer */
+  55:encrypt.c     **** 	M0Multiplication(&block[6]);
+  79               		.loc 1 55 0
+  80 003e CE01      		movw r24,r28
+  81 0040 0696      		adiw r24,6
+  82 0042 0E94 0000 		call M0Multiplication
+  83               	.LVL5:
+  56:encrypt.c     **** 	M1Multiplication(&block[4]);
+  84               		.loc 1 56 0
+  85 0046 CE01      		movw r24,r28
+  86 0048 0496      		adiw r24,4
+  87 004a 0E94 0000 		call M1Multiplication
+  88               	.LVL6:
+  57:encrypt.c     **** 	M1Multiplication(&block[2]);
+  89               		.loc 1 57 0
+  90 004e CE01      		movw r24,r28
+  91 0050 0296      		adiw r24,2
+  92 0052 0E94 0000 		call M1Multiplication
+  93               	.LVL7:
+  58:encrypt.c     **** 	M0Multiplication(&block[0]);
+  94               		.loc 1 58 0
+  95 0056 CE01      		movw r24,r28
+  96 0058 0E94 0000 		call M0Multiplication
+  97               	.LVL8:
+  59:encrypt.c     **** 
+  60:encrypt.c     **** 	/* Inverse S-Layer */
+  61:encrypt.c     **** 	InverseSLayer(block);
+  98               		.loc 1 61 0
+  99 005c CE01      		movw r24,r28
+ 100 005e 0E94 0000 		call InverseSLayer
+ 101               	.LVL9:
+ 102 0062 E12C      		mov r14,__zero_reg__
+ 103 0064 F12C      		mov r15,__zero_reg__
+ 104               	.LVL10:
+ 105               	.L3:
+  62:encrypt.c     **** 
+  63:encrypt.c     **** 	/* Middle layer - end */
+  64:encrypt.c     **** 
+  65:encrypt.c     **** 	
+  66:encrypt.c     **** 	for(i = 6; i < 11; i++)
+  67:encrypt.c     **** 	{
+  68:encrypt.c     **** 		InverseRound(block, roundKeys, &RC[8 * i]);
+ 106               		.loc 1 68 0 discriminator 3
+ 107 0066 A701      		movw r20,r14
+ 108 0068 4050      		subi r20,lo8(-(RC+48))
+ 109 006a 5040      		sbci r21,hi8(-(RC+48))
+ 110 006c B801      		movw r22,r16
+ 111 006e CE01      		movw r24,r28
+ 112 0070 0E94 0000 		call InverseRound
+ 113               	.LVL11:
+ 114 0074 88E0      		ldi r24,8
+ 115 0076 E80E      		add r14,r24
+ 116 0078 F11C      		adc r15,__zero_reg__
+  66:encrypt.c     **** 	{
+ 117               		.loc 1 66 0 discriminator 3
+ 118 007a 88E2      		ldi r24,40
+ 119 007c E816      		cp r14,r24
+ 120 007e F104      		cpc r15,__zero_reg__
+ 121 0080 01F4      		brne .L3
+  69:encrypt.c     **** 	}
+  70:encrypt.c     **** 
+  71:encrypt.c     **** 	AddRoundRoundKeyAndRoundConstant(block, roundKeys, &RC[88]);
+ 122               		.loc 1 71 0
+ 123 0082 40E0      		ldi r20,lo8(RC+88)
+ 124 0084 50E0      		ldi r21,hi8(RC+88)
+ 125 0086 B801      		movw r22,r16
+ 126 0088 CE01      		movw r24,r28
+ 127               	/* epilogue start */
+  72:encrypt.c     **** }
+ 128               		.loc 1 72 0
+ 129 008a DF91      		pop r29
+ 130 008c CF91      		pop r28
+ 131               	.LVL12:
+ 132 008e 1F91      		pop r17
+ 133 0090 0F91      		pop r16
+ 134               	.LVL13:
+ 135 0092 FF90      		pop r15
+ 136 0094 EF90      		pop r14
+  71:encrypt.c     **** }
+ 137               		.loc 1 71 0
+ 138 0096 0C94 0000 		jmp AddRoundRoundKeyAndRoundConstant
+ 139               	.LVL14:
+ 140               		.cfi_endproc
+ 141               	.LFE0:
+ 143               	.global	Encrypt
+ 145               	Encrypt:
+ 146               	.LFB1:
+  73:encrypt.c     **** 
+  74:encrypt.c     **** void Encrypt(uint8_t *block, uint8_t *roundKeys)
+  75:encrypt.c     **** {
+ 147               		.loc 1 75 0
+ 148               		.cfi_startproc
+ 149               	.LVL15:
+ 150 009a 0F93      		push r16
+ 151               	.LCFI6:
+ 152               		.cfi_def_cfa_offset 4
+ 153               		.cfi_offset 16, -3
+ 154 009c 1F93      		push r17
+ 155               	.LCFI7:
+ 156               		.cfi_def_cfa_offset 5
+ 157               		.cfi_offset 17, -4
+ 158 009e CF93      		push r28
+ 159               	.LCFI8:
+ 160               		.cfi_def_cfa_offset 6
+ 161               		.cfi_offset 28, -5
+ 162 00a0 DF93      		push r29
+ 163               	.LCFI9:
+ 164               		.cfi_def_cfa_offset 7
+ 165               		.cfi_offset 29, -6
+ 166               	/* prologue: function */
+ 167               	/* frame size = 0 */
+ 168               	/* stack size = 4 */
+ 169               	.L__stack_usage = 4
+ 170 00a2 8C01      		movw r16,r24
+ 171 00a4 EB01      		movw r28,r22
+  76:encrypt.c     **** 	Whitening(block, roundKeys);
+ 172               		.loc 1 76 0
+ 173 00a6 0E94 0000 		call Whitening
+ 174               	.LVL16:
+  77:encrypt.c     **** 	EncryptionPrinceCore(block, &roundKeys[16]);
+ 175               		.loc 1 77 0
+ 176 00aa BE01      		movw r22,r28
+ 177 00ac 605F      		subi r22,-16
+ 178 00ae 7F4F      		sbci r23,-1
+ 179 00b0 C801      		movw r24,r16
+ 180 00b2 0E94 0000 		call EncryptionPrinceCore
+ 181               	.LVL17:
+  78:encrypt.c     **** 	Whitening(block, &roundKeys[8]);
+ 182               		.loc 1 78 0
+ 183 00b6 BE01      		movw r22,r28
+ 184 00b8 685F      		subi r22,-8
+ 185 00ba 7F4F      		sbci r23,-1
+ 186 00bc C801      		movw r24,r16
+ 187               	/* epilogue start */
+  79:encrypt.c     **** }
+ 188               		.loc 1 79 0
+ 189 00be DF91      		pop r29
+ 190 00c0 CF91      		pop r28
+ 191               	.LVL18:
+ 192 00c2 1F91      		pop r17
+ 193 00c4 0F91      		pop r16
+ 194               	.LVL19:
+  78:encrypt.c     **** 	Whitening(block, &roundKeys[8]);
+ 195               		.loc 1 78 0
+ 196 00c6 0C94 0000 		jmp Whitening
+ 197               	.LVL20:
+ 198               		.cfi_endproc
+ 199               	.LFE1:
+ 201               	.Letext0:
+ 202               		.file 2 "shared_functions.h"
+ 203               		.file 3 "/usr/lib/avr/include/stdint.h"
+ 204               		.file 4 "constants.h"
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 encrypt.c
+     /tmp/ccCU8pff.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccCU8pff.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccCU8pff.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccCU8pff.s:5      *ABS*:000000000000003b __RAMPZ__
+     /tmp/ccCU8pff.s:6      *ABS*:0000000000000034 __CCP__
+     /tmp/ccCU8pff.s:7      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccCU8pff.s:8      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccCU8pff.s:14     .text:0000000000000000 EncryptionPrinceCore
+     /tmp/ccCU8pff.s:145    .text:000000000000009a Encrypt
+
+UNDEFINED SYMBOLS
+RC
+AddRoundRoundKeyAndRoundConstant
+Round
+SLayer
+M0Multiplication
+M1Multiplication
+InverseSLayer
+InverseRound
+Whitening

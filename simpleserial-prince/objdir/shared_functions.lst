@@ -1,0 +1,918 @@
+   1               		.file	"shared_functions.c"
+   2               	__SP_H__ = 0x3e
+   3               	__SP_L__ = 0x3d
+   4               	__SREG__ = 0x3f
+   5               	__RAMPZ__ = 0x3b
+   6               	__CCP__ = 0x34
+   7               	__tmp_reg__ = 0
+   8               	__zero_reg__ = 1
+   9               		.text
+  10               	.Ltext0:
+  11               		.cfi_sections	.debug_frame
+  12               	.global	SLayer
+  14               	SLayer:
+  15               	.LFB0:
+  16               		.file 1 "shared_functions.c"
+   1:shared_functions.c **** /*
+   2:shared_functions.c ****  *
+   3:shared_functions.c ****  * University of Luxembourg
+   4:shared_functions.c ****  * Laboratory of Algorithmics, Cryptology and Security (LACS)
+   5:shared_functions.c ****  *
+   6:shared_functions.c ****  * FELICS - Fair Evaluation of Lightweight Cryptographic Systems
+   7:shared_functions.c ****  *
+   8:shared_functions.c ****  * Copyright (C) 2015 University of Luxembourg
+   9:shared_functions.c ****  *
+  10:shared_functions.c ****  * Written in 2015 by Daniel Dinu <dumitru-daniel.dinu@uni.lu>
+  11:shared_functions.c ****  *
+  12:shared_functions.c ****  * This file is part of FELICS.
+  13:shared_functions.c ****  *
+  14:shared_functions.c ****  * FELICS is free software; you can redistribute it and/or modify
+  15:shared_functions.c ****  * it under the terms of the GNU General Public License as published by
+  16:shared_functions.c ****  * the Free Software Foundation; either version 3 of the License, or
+  17:shared_functions.c ****  * (at your option) any later version.
+  18:shared_functions.c ****  *
+  19:shared_functions.c ****  * FELICS is distributed in the hope that it will be useful,
+  20:shared_functions.c ****  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  21:shared_functions.c ****  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  22:shared_functions.c ****  * GNU General Public License for more details.
+  23:shared_functions.c ****  *
+  24:shared_functions.c ****  * You should have received a copy of the GNU General Public License
+  25:shared_functions.c ****  * along with this program; if not, see <http://www.gnu.org/licenses/>.
+  26:shared_functions.c ****  *
+  27:shared_functions.c ****  */
+  28:shared_functions.c **** 
+  29:shared_functions.c **** #include <stdint.h>
+  30:shared_functions.c **** 
+  31:shared_functions.c **** #include "shared_functions.h"
+  32:shared_functions.c **** #include "constants.h"
+  33:shared_functions.c **** 
+  34:shared_functions.c **** 
+  35:shared_functions.c **** void SLayer(uint8_t *block)
+  36:shared_functions.c **** {
+  17               		.loc 1 36 0
+  18               		.cfi_startproc
+  19               	.LVL0:
+  20 0000 CF93      		push r28
+  21               	.LCFI0:
+  22               		.cfi_def_cfa_offset 4
+  23               		.cfi_offset 28, -3
+  24 0002 DF93      		push r29
+  25               	.LCFI1:
+  26               		.cfi_def_cfa_offset 5
+  27               		.cfi_offset 29, -4
+  28               	/* prologue: function */
+  29               	/* frame size = 0 */
+  30               	/* stack size = 2 */
+  31               	.L__stack_usage = 2
+  32 0004 DC01      		movw r26,r24
+  33               	.LVL1:
+  34 0006 9C01      		movw r18,r24
+  35 0008 285F      		subi r18,-8
+  36 000a 3F4F      		sbci r19,-1
+  37               	.LVL2:
+  38               	.L2:
+  37:shared_functions.c **** 	uint8_t i;
+  38:shared_functions.c **** 	
+  39:shared_functions.c **** 
+  40:shared_functions.c **** 	for(i = 0; i < 8; i++)
+  41:shared_functions.c **** 	{
+  42:shared_functions.c **** 		block[i] = ((READ_SBOX_BYTE(S0[(block[i] >> 4)])) << 4) ^ (READ_SBOX_BYTE(S0[(block[i] & 0x0F)]))
+  39               		.loc 1 42 0 discriminator 3
+  40 000c EC91      		ld r30,X
+  41 000e CE2F      		mov r28,r30
+  42 0010 C295      		swap r28
+  43 0012 CF70      		andi r28,lo8(15)
+  44 0014 D0E0      		ldi r29,0
+  45 0016 C050      		subi r28,lo8(-(S0))
+  46 0018 D040      		sbci r29,hi8(-(S0))
+  47 001a 8881      		ld r24,Y
+  48 001c 40E1      		ldi r20,lo8(16)
+  49 001e 849F      		mul r24,r20
+  50 0020 C001      		movw r24,r0
+  51 0022 1124      		clr __zero_reg__
+  52 0024 EF70      		andi r30,lo8(15)
+  53 0026 F0E0      		ldi r31,0
+  54 0028 E050      		subi r30,lo8(-(S0))
+  55 002a F040      		sbci r31,hi8(-(S0))
+  56 002c 9081      		ld r25,Z
+  57 002e 8927      		eor r24,r25
+  58 0030 8D93      		st X+,r24
+  59               	.LVL3:
+  40:shared_functions.c **** 	{
+  60               		.loc 1 40 0 discriminator 3
+  61 0032 2A17      		cp r18,r26
+  62 0034 3B07      		cpc r19,r27
+  63 0036 01F4      		brne .L2
+  64               	/* epilogue start */
+  43:shared_functions.c **** 	}
+  44:shared_functions.c **** }
+  65               		.loc 1 44 0
+  66 0038 DF91      		pop r29
+  67 003a CF91      		pop r28
+  68 003c 0895      		ret
+  69               		.cfi_endproc
+  70               	.LFE0:
+  72               	.global	InverseSLayer
+  74               	InverseSLayer:
+  75               	.LFB1:
+  45:shared_functions.c **** 
+  46:shared_functions.c **** void InverseSLayer(uint8_t *block)
+  47:shared_functions.c **** {
+  76               		.loc 1 47 0
+  77               		.cfi_startproc
+  78               	.LVL4:
+  79 003e CF93      		push r28
+  80               	.LCFI2:
+  81               		.cfi_def_cfa_offset 4
+  82               		.cfi_offset 28, -3
+  83 0040 DF93      		push r29
+  84               	.LCFI3:
+  85               		.cfi_def_cfa_offset 5
+  86               		.cfi_offset 29, -4
+  87               	/* prologue: function */
+  88               	/* frame size = 0 */
+  89               	/* stack size = 2 */
+  90               	.L__stack_usage = 2
+  91 0042 DC01      		movw r26,r24
+  92               	.LVL5:
+  93 0044 9C01      		movw r18,r24
+  94 0046 285F      		subi r18,-8
+  95 0048 3F4F      		sbci r19,-1
+  96               	.LVL6:
+  97               	.L6:
+  48:shared_functions.c **** 	uint8_t i;
+  49:shared_functions.c **** 	
+  50:shared_functions.c **** 
+  51:shared_functions.c **** 	for(i = 0; i < 8; i++)
+  52:shared_functions.c **** 	{
+  53:shared_functions.c **** 		block[i] = ((READ_INVERSE_SBOX_BYTE(S1[(block[i] >> 4)])) << 4) ^ (READ_INVERSE_SBOX_BYTE(S1[(blo
+  98               		.loc 1 53 0 discriminator 3
+  99 004a EC91      		ld r30,X
+ 100 004c CE2F      		mov r28,r30
+ 101 004e C295      		swap r28
+ 102 0050 CF70      		andi r28,lo8(15)
+ 103 0052 D0E0      		ldi r29,0
+ 104 0054 C050      		subi r28,lo8(-(S1))
+ 105 0056 D040      		sbci r29,hi8(-(S1))
+ 106 0058 8881      		ld r24,Y
+ 107 005a 40E1      		ldi r20,lo8(16)
+ 108 005c 849F      		mul r24,r20
+ 109 005e C001      		movw r24,r0
+ 110 0060 1124      		clr __zero_reg__
+ 111 0062 EF70      		andi r30,lo8(15)
+ 112 0064 F0E0      		ldi r31,0
+ 113 0066 E050      		subi r30,lo8(-(S1))
+ 114 0068 F040      		sbci r31,hi8(-(S1))
+ 115 006a 9081      		ld r25,Z
+ 116 006c 8927      		eor r24,r25
+ 117 006e 8D93      		st X+,r24
+ 118               	.LVL7:
+  51:shared_functions.c **** 	{
+ 119               		.loc 1 51 0 discriminator 3
+ 120 0070 2A17      		cp r18,r26
+ 121 0072 3B07      		cpc r19,r27
+ 122 0074 01F4      		brne .L6
+ 123               	/* epilogue start */
+  54:shared_functions.c **** 	}
+  55:shared_functions.c **** }
+ 124               		.loc 1 55 0
+ 125 0076 DF91      		pop r29
+ 126 0078 CF91      		pop r28
+ 127 007a 0895      		ret
+ 128               		.cfi_endproc
+ 129               	.LFE1:
+ 131               	.global	M0Multiplication
+ 133               	M0Multiplication:
+ 134               	.LFB2:
+  56:shared_functions.c **** 
+  57:shared_functions.c **** void M0Multiplication(uint8_t *block)
+  58:shared_functions.c **** {
+ 135               		.loc 1 58 0
+ 136               		.cfi_startproc
+ 137               	.LVL8:
+ 138               	/* prologue: function */
+ 139               	/* frame size = 0 */
+ 140               	/* stack size = 0 */
+ 141               	.L__stack_usage = 0
+ 142 007c FC01      		movw r30,r24
+  59:shared_functions.c **** 	uint8_t temp[2];
+  60:shared_functions.c **** 
+  61:shared_functions.c **** 	
+  62:shared_functions.c **** 	temp[1] = (0x07 & (block[1] >> 4)) ^ (0x0B & block[1]) ^ (0x0D & (block[0] >> 4)) ^ (0x0E & block[
+ 143               		.loc 1 62 0
+ 144 007e 8181      		ldd r24,Z+1
+ 145               	.LVL9:
+ 146 0080 382F      		mov r19,r24
+ 147 0082 3295      		swap r19
+ 148 0084 3F70      		andi r19,lo8(15)
+ 149 0086 9081      		ld r25,Z
+ 150 0088 292F      		mov r18,r25
+ 151 008a 2295      		swap r18
+ 152 008c 2F70      		andi r18,lo8(15)
+ 153               	.LVL10:
+  63:shared_functions.c **** 	temp[1] = (temp[1] << 4) ^ (0x0B & (block[1] >> 4)) ^ (0x0D & block[1]) ^ (0x0E & (block[0] >> 4))
+  64:shared_functions.c **** 		
+  65:shared_functions.c **** 	temp[0] = (0x0D & (block[1] >> 4)) ^ (0x0E & block[1]) ^ (0x07 & (block[0] >> 4)) ^ (0x0B & block[
+  66:shared_functions.c **** 	temp[0] = (temp[0] << 4) ^ (0x0E & (block[1] >> 4)) ^ (0x07 & block[1]) ^ (0x0B & (block[0] >> 4))
+  67:shared_functions.c **** 
+  68:shared_functions.c **** 	
+  69:shared_functions.c **** 	block[1] = temp[1];
+ 154               		.loc 1 69 0
+ 155 008e 582F      		mov r21,r24
+ 156 0090 5B70      		andi r21,lo8(11)
+ 157 0092 492F      		mov r20,r25
+ 158 0094 4E70      		andi r20,lo8(14)
+ 159 0096 4527      		eor r20,r21
+ 160               	.LVL11:
+ 161 0098 532F      		mov r21,r19
+ 162 009a 5770      		andi r21,lo8(7)
+ 163               	.LVL12:
+ 164 009c 4527      		eor r20,r21
+ 165               	.LVL13:
+ 166 009e 522F      		mov r21,r18
+ 167               	.LVL14:
+ 168 00a0 5D70      		andi r21,lo8(13)
+ 169               	.LVL15:
+ 170 00a2 4527      		eor r20,r21
+ 171 00a4 60E1      		ldi r22,lo8(16)
+ 172 00a6 469F      		mul r20,r22
+ 173 00a8 A001      		movw r20,r0
+ 174 00aa 1124      		clr __zero_reg__
+ 175 00ac 682F      		mov r22,r24
+ 176 00ae 6D70      		andi r22,lo8(13)
+ 177               	.LVL16:
+ 178 00b0 592F      		mov r21,r25
+ 179               	.LVL17:
+ 180 00b2 5770      		andi r21,lo8(7)
+ 181               	.LVL18:
+ 182 00b4 5627      		eor r21,r22
+ 183               	.LVL19:
+ 184 00b6 632F      		mov r22,r19
+ 185               	.LVL20:
+ 186 00b8 6B70      		andi r22,lo8(11)
+ 187 00ba 5627      		eor r21,r22
+ 188 00bc 622F      		mov r22,r18
+ 189 00be 6E70      		andi r22,lo8(14)
+ 190 00c0 5627      		eor r21,r22
+ 191 00c2 4527      		eor r20,r21
+ 192 00c4 4183      		std Z+1,r20
+  70:shared_functions.c **** 	block[0] = temp[0];
+ 193               		.loc 1 70 0
+ 194 00c6 582F      		mov r21,r24
+ 195 00c8 5E70      		andi r21,lo8(14)
+ 196 00ca 492F      		mov r20,r25
+ 197 00cc 4B70      		andi r20,lo8(11)
+ 198 00ce 4527      		eor r20,r21
+ 199               	.LVL21:
+ 200 00d0 532F      		mov r21,r19
+ 201 00d2 5D70      		andi r21,lo8(13)
+ 202               	.LVL22:
+ 203 00d4 4527      		eor r20,r21
+ 204               	.LVL23:
+ 205 00d6 522F      		mov r21,r18
+ 206               	.LVL24:
+ 207 00d8 5770      		andi r21,lo8(7)
+ 208               	.LVL25:
+ 209 00da 4527      		eor r20,r21
+ 210 00dc 60E1      		ldi r22,lo8(16)
+ 211 00de 469F      		mul r20,r22
+ 212 00e0 A001      		movw r20,r0
+ 213 00e2 1124      		clr __zero_reg__
+ 214 00e4 8770      		andi r24,lo8(7)
+ 215               	.LVL26:
+ 216 00e6 9D70      		andi r25,lo8(13)
+ 217 00e8 9827      		eor r25,r24
+ 218 00ea 3E70      		andi r19,lo8(14)
+ 219 00ec 9327      		eor r25,r19
+ 220 00ee 2B70      		andi r18,lo8(11)
+ 221 00f0 9227      		eor r25,r18
+ 222 00f2 9427      		eor r25,r20
+ 223 00f4 9083      		st Z,r25
+ 224 00f6 0895      		ret
+ 225               		.cfi_endproc
+ 226               	.LFE2:
+ 228               	.global	M1Multiplication
+ 230               	M1Multiplication:
+ 231               	.LFB3:
+  71:shared_functions.c **** }
+  72:shared_functions.c **** 
+  73:shared_functions.c **** void M1Multiplication(uint8_t *block)
+  74:shared_functions.c **** {
+ 232               		.loc 1 74 0
+ 233               		.cfi_startproc
+ 234               	.LVL27:
+ 235               	/* prologue: function */
+ 236               	/* frame size = 0 */
+ 237               	/* stack size = 0 */
+ 238               	.L__stack_usage = 0
+ 239 00f8 FC01      		movw r30,r24
+  75:shared_functions.c **** 	uint8_t temp[2];
+  76:shared_functions.c **** 
+  77:shared_functions.c **** 	
+  78:shared_functions.c **** 	temp[1] = (0x0B & (block[1] >> 4)) ^ (0x0D & block[1]) ^ (0x0E & (block[0] >> 4)) ^ (0x07 & block[
+ 240               		.loc 1 78 0
+ 241 00fa 8181      		ldd r24,Z+1
+ 242               	.LVL28:
+ 243 00fc 382F      		mov r19,r24
+ 244 00fe 3295      		swap r19
+ 245 0100 3F70      		andi r19,lo8(15)
+ 246 0102 9081      		ld r25,Z
+ 247 0104 292F      		mov r18,r25
+ 248 0106 2295      		swap r18
+ 249 0108 2F70      		andi r18,lo8(15)
+ 250               	.LVL29:
+  79:shared_functions.c **** 	temp[1] = (temp[1] << 4) ^ (0x0D & (block[1] >> 4)) ^ (0x0E & block[1]) ^ (0x07 & (block[0] >> 4))
+  80:shared_functions.c **** 		
+  81:shared_functions.c **** 	temp[0] = (0x0E & (block[1] >> 4)) ^ (0x07 & block[1]) ^ (0x0B & (block[0] >> 4)) ^ (0x0D & block[
+  82:shared_functions.c **** 	temp[0] = (temp[0] << 4) ^ (0x07 & (block[1] >> 4)) ^ (0x0B & block[1]) ^ (0x0D & (block[0] >> 4))
+  83:shared_functions.c **** 	
+  84:shared_functions.c **** 	
+  85:shared_functions.c **** 	block[1] = temp[1];
+ 251               		.loc 1 85 0
+ 252 010a 582F      		mov r21,r24
+ 253 010c 5D70      		andi r21,lo8(13)
+ 254 010e 492F      		mov r20,r25
+ 255 0110 4770      		andi r20,lo8(7)
+ 256 0112 4527      		eor r20,r21
+ 257               	.LVL30:
+ 258 0114 532F      		mov r21,r19
+ 259 0116 5B70      		andi r21,lo8(11)
+ 260               	.LVL31:
+ 261 0118 4527      		eor r20,r21
+ 262               	.LVL32:
+ 263 011a 522F      		mov r21,r18
+ 264               	.LVL33:
+ 265 011c 5E70      		andi r21,lo8(14)
+ 266               	.LVL34:
+ 267 011e 4527      		eor r20,r21
+ 268 0120 60E1      		ldi r22,lo8(16)
+ 269 0122 469F      		mul r20,r22
+ 270 0124 A001      		movw r20,r0
+ 271 0126 1124      		clr __zero_reg__
+ 272 0128 682F      		mov r22,r24
+ 273 012a 6E70      		andi r22,lo8(14)
+ 274               	.LVL35:
+ 275 012c 592F      		mov r21,r25
+ 276               	.LVL36:
+ 277 012e 5B70      		andi r21,lo8(11)
+ 278               	.LVL37:
+ 279 0130 5627      		eor r21,r22
+ 280               	.LVL38:
+ 281 0132 632F      		mov r22,r19
+ 282               	.LVL39:
+ 283 0134 6D70      		andi r22,lo8(13)
+ 284 0136 5627      		eor r21,r22
+ 285 0138 622F      		mov r22,r18
+ 286 013a 6770      		andi r22,lo8(7)
+ 287 013c 5627      		eor r21,r22
+ 288 013e 4527      		eor r20,r21
+ 289 0140 4183      		std Z+1,r20
+  86:shared_functions.c **** 	block[0] = temp[0];
+ 290               		.loc 1 86 0
+ 291 0142 582F      		mov r21,r24
+ 292 0144 5770      		andi r21,lo8(7)
+ 293 0146 492F      		mov r20,r25
+ 294 0148 4D70      		andi r20,lo8(13)
+ 295 014a 4527      		eor r20,r21
+ 296               	.LVL40:
+ 297 014c 532F      		mov r21,r19
+ 298 014e 5E70      		andi r21,lo8(14)
+ 299               	.LVL41:
+ 300 0150 4527      		eor r20,r21
+ 301               	.LVL42:
+ 302 0152 522F      		mov r21,r18
+ 303               	.LVL43:
+ 304 0154 5B70      		andi r21,lo8(11)
+ 305               	.LVL44:
+ 306 0156 4527      		eor r20,r21
+ 307 0158 60E1      		ldi r22,lo8(16)
+ 308 015a 469F      		mul r20,r22
+ 309 015c A001      		movw r20,r0
+ 310 015e 1124      		clr __zero_reg__
+ 311 0160 8B70      		andi r24,lo8(11)
+ 312               	.LVL45:
+ 313 0162 9E70      		andi r25,lo8(14)
+ 314 0164 9827      		eor r25,r24
+ 315 0166 3770      		andi r19,lo8(7)
+ 316 0168 9327      		eor r25,r19
+ 317 016a 2D70      		andi r18,lo8(13)
+ 318 016c 9227      		eor r25,r18
+ 319 016e 9427      		eor r25,r20
+ 320 0170 9083      		st Z,r25
+ 321 0172 0895      		ret
+ 322               		.cfi_endproc
+ 323               	.LFE3:
+ 325               	.global	SR
+ 327               	SR:
+ 328               	.LFB4:
+  87:shared_functions.c **** }
+  88:shared_functions.c **** 
+  89:shared_functions.c **** void SR(uint8_t *block)
+  90:shared_functions.c **** {
+ 329               		.loc 1 90 0
+ 330               		.cfi_startproc
+ 331               	.LVL46:
+ 332               	/* prologue: function */
+ 333               	/* frame size = 0 */
+ 334               	/* stack size = 0 */
+ 335               	.L__stack_usage = 0
+ 336 0174 FC01      		movw r30,r24
+ 337               	.LVL47:
+  91:shared_functions.c **** 	uint8_t temp0, temp1;
+  92:shared_functions.c **** 
+  93:shared_functions.c **** 
+  94:shared_functions.c **** 	/* Shift left column 1 by 1 */
+  95:shared_functions.c **** 	temp0 = block[7];
+  96:shared_functions.c **** 	block[7] = (block[7] & 0xF0) ^ (block[5] & 0x0F);
+ 338               		.loc 1 96 0
+ 339 0176 8781      		ldd r24,Z+7
+ 340               	.LVL48:
+ 341 0178 9581      		ldd r25,Z+5
+ 342 017a 382F      		mov r19,r24
+ 343 017c 307F      		andi r19,lo8(-16)
+ 344 017e 292F      		mov r18,r25
+ 345 0180 2F70      		andi r18,lo8(15)
+ 346 0182 2327      		eor r18,r19
+ 347 0184 2783      		std Z+7,r18
+  97:shared_functions.c **** 	block[5] = (block[5] & 0xF0) ^ (block[3] & 0x0F);
+ 348               		.loc 1 97 0
+ 349 0186 2381      		ldd r18,Z+3
+ 350 0188 907F      		andi r25,lo8(-16)
+ 351 018a 322F      		mov r19,r18
+ 352 018c 3F70      		andi r19,lo8(15)
+ 353 018e 9327      		eor r25,r19
+ 354 0190 9583      		std Z+5,r25
+  98:shared_functions.c **** 	block[3] = (block[3] & 0xF0) ^ (block[1] & 0x0F);
+ 355               		.loc 1 98 0
+ 356 0192 9181      		ldd r25,Z+1
+ 357 0194 207F      		andi r18,lo8(-16)
+ 358 0196 392F      		mov r19,r25
+ 359 0198 3F70      		andi r19,lo8(15)
+ 360 019a 2327      		eor r18,r19
+ 361 019c 2383      		std Z+3,r18
+  99:shared_functions.c **** 	block[1] = (block[1] & 0xF0) ^ (temp0 & 0x0F);
+ 362               		.loc 1 99 0
+ 363 019e 907F      		andi r25,lo8(-16)
+ 364 01a0 8F70      		andi r24,lo8(15)
+ 365               	.LVL49:
+ 366 01a2 8927      		eor r24,r25
+ 367 01a4 8183      		std Z+1,r24
+ 100:shared_functions.c **** 
+ 101:shared_functions.c **** 
+ 102:shared_functions.c **** 	/* Shift left column 2 by 2 and column 3 by 3 */
+ 103:shared_functions.c **** 	temp0 = block[0];
+ 368               		.loc 1 103 0
+ 369 01a6 8081      		ld r24,Z
+ 370               	.LVL50:
+ 104:shared_functions.c **** 	temp1 = block[2];
+ 105:shared_functions.c **** 
+ 106:shared_functions.c **** 	block[0] = (block[4] & 0xF0) ^ (block[2] & 0x0F);
+ 371               		.loc 1 106 0
+ 372 01a8 2481      		ldd r18,Z+4
+ 373 01aa 3281      		ldd r19,Z+2
+ 374 01ac 422F      		mov r20,r18
+ 375 01ae 407F      		andi r20,lo8(-16)
+ 376 01b0 932F      		mov r25,r19
+ 377 01b2 9F70      		andi r25,lo8(15)
+ 378 01b4 9427      		eor r25,r20
+ 379 01b6 9083      		st Z,r25
+ 107:shared_functions.c **** 	block[2] = (block[6] & 0xF0) ^ (block[4] & 0x0F);
+ 380               		.loc 1 107 0
+ 381 01b8 9681      		ldd r25,Z+6
+ 382 01ba 492F      		mov r20,r25
+ 383 01bc 407F      		andi r20,lo8(-16)
+ 384 01be 2F70      		andi r18,lo8(15)
+ 385 01c0 2427      		eor r18,r20
+ 386 01c2 2283      		std Z+2,r18
+ 387               	.LVL51:
+ 108:shared_functions.c **** 	block[4] = (temp0 & 0xF0) ^ (block[6] & 0x0F);
+ 388               		.loc 1 108 0
+ 389 01c4 282F      		mov r18,r24
+ 390 01c6 207F      		andi r18,lo8(-16)
+ 391 01c8 9F70      		andi r25,lo8(15)
+ 392 01ca 9227      		eor r25,r18
+ 393 01cc 9483      		std Z+4,r25
+ 109:shared_functions.c **** 	block[6] = (temp1 & 0xF0) ^ (temp0 & 0x0F);
+ 394               		.loc 1 109 0
+ 395 01ce 307F      		andi r19,lo8(-16)
+ 396               	.LVL52:
+ 397 01d0 8F70      		andi r24,lo8(15)
+ 398               	.LVL53:
+ 399 01d2 8327      		eor r24,r19
+ 400 01d4 8683      		std Z+6,r24
+ 401 01d6 0895      		ret
+ 402               		.cfi_endproc
+ 403               	.LFE4:
+ 405               	.global	InverseSR
+ 407               	InverseSR:
+ 408               	.LFB5:
+ 110:shared_functions.c **** }
+ 111:shared_functions.c **** 
+ 112:shared_functions.c **** void InverseSR(uint8_t *block)
+ 113:shared_functions.c **** {
+ 409               		.loc 1 113 0
+ 410               		.cfi_startproc
+ 411               	.LVL54:
+ 412               	/* prologue: function */
+ 413               	/* frame size = 0 */
+ 414               	/* stack size = 0 */
+ 415               	.L__stack_usage = 0
+ 416 01d8 FC01      		movw r30,r24
+ 417               	.LVL55:
+ 114:shared_functions.c **** 	uint8_t temp0, temp1;
+ 115:shared_functions.c **** 
+ 116:shared_functions.c **** 
+ 117:shared_functions.c **** 	/* Shift right column 1 by 1 */
+ 118:shared_functions.c **** 	temp0 = block[1];
+ 119:shared_functions.c **** 	block[1] = (block[1] & 0xF0) ^ (block[3] & 0x0F);
+ 418               		.loc 1 119 0
+ 419 01da 8181      		ldd r24,Z+1
+ 420               	.LVL56:
+ 421 01dc 9381      		ldd r25,Z+3
+ 422 01de 382F      		mov r19,r24
+ 423 01e0 307F      		andi r19,lo8(-16)
+ 424 01e2 292F      		mov r18,r25
+ 425 01e4 2F70      		andi r18,lo8(15)
+ 426 01e6 2327      		eor r18,r19
+ 427 01e8 2183      		std Z+1,r18
+ 120:shared_functions.c **** 	block[3] = (block[3] & 0xF0) ^ (block[5] & 0x0F);
+ 428               		.loc 1 120 0
+ 429 01ea 2581      		ldd r18,Z+5
+ 430 01ec 907F      		andi r25,lo8(-16)
+ 431 01ee 322F      		mov r19,r18
+ 432 01f0 3F70      		andi r19,lo8(15)
+ 433 01f2 9327      		eor r25,r19
+ 434 01f4 9383      		std Z+3,r25
+ 121:shared_functions.c **** 	block[5] = (block[5] & 0xF0) ^ (block[7] & 0x0F);
+ 435               		.loc 1 121 0
+ 436 01f6 9781      		ldd r25,Z+7
+ 437 01f8 207F      		andi r18,lo8(-16)
+ 438 01fa 392F      		mov r19,r25
+ 439 01fc 3F70      		andi r19,lo8(15)
+ 440 01fe 2327      		eor r18,r19
+ 441 0200 2583      		std Z+5,r18
+ 122:shared_functions.c **** 	block[7] = (block[7] & 0xF0) ^ (temp0 & 0x0F);
+ 442               		.loc 1 122 0
+ 443 0202 907F      		andi r25,lo8(-16)
+ 444 0204 8F70      		andi r24,lo8(15)
+ 445               	.LVL57:
+ 446 0206 8927      		eor r24,r25
+ 447 0208 8783      		std Z+7,r24
+ 123:shared_functions.c **** 
+ 124:shared_functions.c **** 	
+ 125:shared_functions.c **** 	/* Shift right column 2 by 2 and column 3 by 3 */
+ 126:shared_functions.c **** 	temp0 = block[6];
+ 448               		.loc 1 126 0
+ 449 020a 8681      		ldd r24,Z+6
+ 450               	.LVL58:
+ 127:shared_functions.c **** 	temp1 = block[4];
+ 128:shared_functions.c **** 
+ 129:shared_functions.c **** 	block[6] = (block[2] & 0xF0) ^ (block[4] & 0x0F);
+ 451               		.loc 1 129 0
+ 452 020c 2281      		ldd r18,Z+2
+ 453 020e 3481      		ldd r19,Z+4
+ 454 0210 422F      		mov r20,r18
+ 455 0212 407F      		andi r20,lo8(-16)
+ 456 0214 932F      		mov r25,r19
+ 457 0216 9F70      		andi r25,lo8(15)
+ 458 0218 9427      		eor r25,r20
+ 459 021a 9683      		std Z+6,r25
+ 130:shared_functions.c **** 	block[4] = (block[0] & 0xF0) ^ (block[2] & 0x0F);
+ 460               		.loc 1 130 0
+ 461 021c 9081      		ld r25,Z
+ 462 021e 492F      		mov r20,r25
+ 463 0220 407F      		andi r20,lo8(-16)
+ 464 0222 2F70      		andi r18,lo8(15)
+ 465 0224 2427      		eor r18,r20
+ 466 0226 2483      		std Z+4,r18
+ 467               	.LVL59:
+ 131:shared_functions.c **** 	block[2] = (temp0 & 0xF0) ^ (block[0] & 0x0F);
+ 468               		.loc 1 131 0
+ 469 0228 282F      		mov r18,r24
+ 470 022a 207F      		andi r18,lo8(-16)
+ 471 022c 9F70      		andi r25,lo8(15)
+ 472 022e 9227      		eor r25,r18
+ 473 0230 9283      		std Z+2,r25
+ 132:shared_functions.c **** 	block[0] = (temp1 & 0xF0) ^ (temp0 & 0x0F);
+ 474               		.loc 1 132 0
+ 475 0232 307F      		andi r19,lo8(-16)
+ 476               	.LVL60:
+ 477 0234 8F70      		andi r24,lo8(15)
+ 478               	.LVL61:
+ 479 0236 8327      		eor r24,r19
+ 480 0238 8083      		st Z,r24
+ 481 023a 0895      		ret
+ 482               		.cfi_endproc
+ 483               	.LFE5:
+ 485               	.global	AddRoundRoundKeyAndRoundConstant
+ 487               	AddRoundRoundKeyAndRoundConstant:
+ 488               	.LFB6:
+ 133:shared_functions.c **** }
+ 134:shared_functions.c **** 
+ 135:shared_functions.c **** void AddRoundRoundKeyAndRoundConstant(uint8_t *block, uint8_t *roundKey, const uint8_t *roundConsta
+ 136:shared_functions.c **** {
+ 489               		.loc 1 136 0
+ 490               		.cfi_startproc
+ 491               	.LVL62:
+ 492 023c CF93      		push r28
+ 493               	.LCFI4:
+ 494               		.cfi_def_cfa_offset 4
+ 495               		.cfi_offset 28, -3
+ 496 023e DF93      		push r29
+ 497               	.LCFI5:
+ 498               		.cfi_def_cfa_offset 5
+ 499               		.cfi_offset 29, -4
+ 500               	/* prologue: function */
+ 501               	/* frame size = 0 */
+ 502               	/* stack size = 2 */
+ 503               	.L__stack_usage = 2
+ 504               	.LVL63:
+ 505 0240 DB01      		movw r26,r22
+ 506 0242 FC01      		movw r30,r24
+ 507 0244 9A01      		movw r18,r20
+ 508 0246 285F      		subi r18,-8
+ 509 0248 3F4F      		sbci r19,-1
+ 510               	.LVL64:
+ 511               	.L13:
+ 137:shared_functions.c **** 	uint8_t i;
+ 138:shared_functions.c **** 
+ 139:shared_functions.c **** 
+ 140:shared_functions.c **** 	for(i = 0; i < 8; i++)
+ 141:shared_functions.c **** 	{
+ 142:shared_functions.c **** 		block[i] = block[i] ^ READ_ROUND_CONSTANT_BYTE(roundConstant[i]);
+ 512               		.loc 1 142 0 discriminator 3
+ 513 024a EA01      		movw r28,r20
+ 514 024c 9991      		ld r25,Y+
+ 515 024e AE01      		movw r20,r28
+ 516 0250 8081      		ld r24,Z
+ 517 0252 8927      		eor r24,r25
+ 518 0254 8083      		st Z,r24
+ 143:shared_functions.c **** 		block[i] = block[i] ^ READ_ROUND_KEY_BYTE(roundKey[i]);
+ 519               		.loc 1 143 0 discriminator 3
+ 520 0256 9D91      		ld r25,X+
+ 521 0258 8927      		eor r24,r25
+ 522 025a 8193      		st Z+,r24
+ 523               	.LVL65:
+ 140:shared_functions.c **** 	{
+ 524               		.loc 1 140 0 discriminator 3
+ 525 025c C217      		cp r28,r18
+ 526 025e D307      		cpc r29,r19
+ 527 0260 01F4      		brne .L13
+ 528               	/* epilogue start */
+ 144:shared_functions.c **** 	}
+ 145:shared_functions.c **** }
+ 529               		.loc 1 145 0
+ 530 0262 DF91      		pop r29
+ 531 0264 CF91      		pop r28
+ 532 0266 0895      		ret
+ 533               		.cfi_endproc
+ 534               	.LFE6:
+ 536               	.global	Round
+ 538               	Round:
+ 539               	.LFB7:
+ 146:shared_functions.c **** 
+ 147:shared_functions.c **** void Round(uint8_t *block, uint8_t *roundKey, const uint8_t *roundConstant)
+ 148:shared_functions.c **** {	
+ 540               		.loc 1 148 0
+ 541               		.cfi_startproc
+ 542               	.LVL66:
+ 543 0268 EF92      		push r14
+ 544               	.LCFI6:
+ 545               		.cfi_def_cfa_offset 4
+ 546               		.cfi_offset 14, -3
+ 547 026a FF92      		push r15
+ 548               	.LCFI7:
+ 549               		.cfi_def_cfa_offset 5
+ 550               		.cfi_offset 15, -4
+ 551 026c 0F93      		push r16
+ 552               	.LCFI8:
+ 553               		.cfi_def_cfa_offset 6
+ 554               		.cfi_offset 16, -5
+ 555 026e 1F93      		push r17
+ 556               	.LCFI9:
+ 557               		.cfi_def_cfa_offset 7
+ 558               		.cfi_offset 17, -6
+ 559 0270 CF93      		push r28
+ 560               	.LCFI10:
+ 561               		.cfi_def_cfa_offset 8
+ 562               		.cfi_offset 28, -7
+ 563 0272 DF93      		push r29
+ 564               	.LCFI11:
+ 565               		.cfi_def_cfa_offset 9
+ 566               		.cfi_offset 29, -8
+ 567               	/* prologue: function */
+ 568               	/* frame size = 0 */
+ 569               	/* stack size = 6 */
+ 570               	.L__stack_usage = 6
+ 571 0274 EC01      		movw r28,r24
+ 572 0276 8B01      		movw r16,r22
+ 573 0278 7A01      		movw r14,r20
+ 149:shared_functions.c **** 	/* S-Layer */
+ 150:shared_functions.c **** 	SLayer(block);
+ 574               		.loc 1 150 0
+ 575 027a 0E94 0000 		call SLayer
+ 576               	.LVL67:
+ 151:shared_functions.c **** 
+ 152:shared_functions.c **** 	/* M-Layer */
+ 153:shared_functions.c **** 	M0Multiplication(&block[6]);
+ 577               		.loc 1 153 0
+ 578 027e CE01      		movw r24,r28
+ 579 0280 0696      		adiw r24,6
+ 580 0282 0E94 0000 		call M0Multiplication
+ 581               	.LVL68:
+ 154:shared_functions.c **** 	M1Multiplication(&block[4]);
+ 582               		.loc 1 154 0
+ 583 0286 CE01      		movw r24,r28
+ 584 0288 0496      		adiw r24,4
+ 585 028a 0E94 0000 		call M1Multiplication
+ 586               	.LVL69:
+ 155:shared_functions.c **** 	M1Multiplication(&block[2]);
+ 587               		.loc 1 155 0
+ 588 028e CE01      		movw r24,r28
+ 589 0290 0296      		adiw r24,2
+ 590 0292 0E94 0000 		call M1Multiplication
+ 591               	.LVL70:
+ 156:shared_functions.c **** 	M0Multiplication(&block[0]);
+ 592               		.loc 1 156 0
+ 593 0296 CE01      		movw r24,r28
+ 594 0298 0E94 0000 		call M0Multiplication
+ 595               	.LVL71:
+ 157:shared_functions.c **** 
+ 158:shared_functions.c **** 	/* SR */
+ 159:shared_functions.c **** 	SR(block);
+ 596               		.loc 1 159 0
+ 597 029c CE01      		movw r24,r28
+ 598 029e 0E94 0000 		call SR
+ 599               	.LVL72:
+ 160:shared_functions.c **** 
+ 161:shared_functions.c **** 	/* XOR K1, XOR RCi */
+ 162:shared_functions.c **** 	AddRoundRoundKeyAndRoundConstant(block, roundKey, roundConstant);
+ 600               		.loc 1 162 0
+ 601 02a2 A701      		movw r20,r14
+ 602 02a4 B801      		movw r22,r16
+ 603 02a6 CE01      		movw r24,r28
+ 604               	/* epilogue start */
+ 163:shared_functions.c **** }
+ 605               		.loc 1 163 0
+ 606 02a8 DF91      		pop r29
+ 607 02aa CF91      		pop r28
+ 608               	.LVL73:
+ 609 02ac 1F91      		pop r17
+ 610 02ae 0F91      		pop r16
+ 611               	.LVL74:
+ 612 02b0 FF90      		pop r15
+ 613 02b2 EF90      		pop r14
+ 614               	.LVL75:
+ 162:shared_functions.c **** }
+ 615               		.loc 1 162 0
+ 616 02b4 0C94 0000 		jmp AddRoundRoundKeyAndRoundConstant
+ 617               	.LVL76:
+ 618               		.cfi_endproc
+ 619               	.LFE7:
+ 621               	.global	InverseRound
+ 623               	InverseRound:
+ 624               	.LFB8:
+ 164:shared_functions.c **** 
+ 165:shared_functions.c **** void InverseRound(uint8_t *block, uint8_t *roundKey, const uint8_t *roundConstant)
+ 166:shared_functions.c **** {
+ 625               		.loc 1 166 0
+ 626               		.cfi_startproc
+ 627               	.LVL77:
+ 628 02b8 CF93      		push r28
+ 629               	.LCFI12:
+ 630               		.cfi_def_cfa_offset 4
+ 631               		.cfi_offset 28, -3
+ 632 02ba DF93      		push r29
+ 633               	.LCFI13:
+ 634               		.cfi_def_cfa_offset 5
+ 635               		.cfi_offset 29, -4
+ 636               	/* prologue: function */
+ 637               	/* frame size = 0 */
+ 638               	/* stack size = 2 */
+ 639               	.L__stack_usage = 2
+ 640 02bc EC01      		movw r28,r24
+ 167:shared_functions.c **** 	/* XOR K1, XOR RCi */
+ 168:shared_functions.c **** 	AddRoundRoundKeyAndRoundConstant(block, roundKey, roundConstant);
+ 641               		.loc 1 168 0
+ 642 02be 0E94 0000 		call AddRoundRoundKeyAndRoundConstant
+ 643               	.LVL78:
+ 169:shared_functions.c **** 
+ 170:shared_functions.c **** 	/* Inverse SR */
+ 171:shared_functions.c **** 	InverseSR(block);
+ 644               		.loc 1 171 0
+ 645 02c2 CE01      		movw r24,r28
+ 646 02c4 0E94 0000 		call InverseSR
+ 647               	.LVL79:
+ 172:shared_functions.c **** 
+ 173:shared_functions.c **** 	/* M-Layer */
+ 174:shared_functions.c **** 	M0Multiplication(&block[6]);
+ 648               		.loc 1 174 0
+ 649 02c8 CE01      		movw r24,r28
+ 650 02ca 0696      		adiw r24,6
+ 651 02cc 0E94 0000 		call M0Multiplication
+ 652               	.LVL80:
+ 175:shared_functions.c **** 	M1Multiplication(&block[4]);
+ 653               		.loc 1 175 0
+ 654 02d0 CE01      		movw r24,r28
+ 655 02d2 0496      		adiw r24,4
+ 656 02d4 0E94 0000 		call M1Multiplication
+ 657               	.LVL81:
+ 176:shared_functions.c **** 	M1Multiplication(&block[2]);
+ 658               		.loc 1 176 0
+ 659 02d8 CE01      		movw r24,r28
+ 660 02da 0296      		adiw r24,2
+ 661 02dc 0E94 0000 		call M1Multiplication
+ 662               	.LVL82:
+ 177:shared_functions.c **** 	M0Multiplication(&block[0]);
+ 663               		.loc 1 177 0
+ 664 02e0 CE01      		movw r24,r28
+ 665 02e2 0E94 0000 		call M0Multiplication
+ 666               	.LVL83:
+ 178:shared_functions.c **** 
+ 179:shared_functions.c **** 	/* Inverse S-Layer */
+ 180:shared_functions.c **** 	InverseSLayer(block);
+ 667               		.loc 1 180 0
+ 668 02e6 CE01      		movw r24,r28
+ 669               	/* epilogue start */
+ 181:shared_functions.c **** }
+ 670               		.loc 1 181 0
+ 671 02e8 DF91      		pop r29
+ 672 02ea CF91      		pop r28
+ 673               	.LVL84:
+ 180:shared_functions.c **** }
+ 674               		.loc 1 180 0
+ 675 02ec 0C94 0000 		jmp InverseSLayer
+ 676               	.LVL85:
+ 677               		.cfi_endproc
+ 678               	.LFE8:
+ 680               	.global	Whitening
+ 682               	Whitening:
+ 683               	.LFB9:
+ 182:shared_functions.c **** 
+ 183:shared_functions.c **** void Whitening(uint8_t *block, uint8_t *roundKey)
+ 184:shared_functions.c **** {
+ 684               		.loc 1 184 0
+ 685               		.cfi_startproc
+ 686               	.LVL86:
+ 687               	/* prologue: function */
+ 688               	/* frame size = 0 */
+ 689               	/* stack size = 0 */
+ 690               	.L__stack_usage = 0
+ 691 02f0 FC01      		movw r30,r24
+ 692 02f2 9C01      		movw r18,r24
+ 693 02f4 285F      		subi r18,-8
+ 694 02f6 3F4F      		sbci r19,-1
+ 695               	.LVL87:
+ 696               	.L18:
+ 185:shared_functions.c **** 	uint8_t i;
+ 186:shared_functions.c **** 
+ 187:shared_functions.c **** 
+ 188:shared_functions.c **** 	for(i = 0; i < 8; i++)
+ 189:shared_functions.c **** 	{
+ 190:shared_functions.c **** 		block[i] = block[i] ^ READ_ROUND_KEY_BYTE(roundKey[i]);
+ 697               		.loc 1 190 0 discriminator 3
+ 698 02f8 DB01      		movw r26,r22
+ 699 02fa 8D91      		ld r24,X+
+ 700 02fc BD01      		movw r22,r26
+ 701 02fe 9081      		ld r25,Z
+ 702 0300 8927      		eor r24,r25
+ 703 0302 8193      		st Z+,r24
+ 704               	.LVL88:
+ 188:shared_functions.c **** 	{
+ 705               		.loc 1 188 0 discriminator 3
+ 706 0304 E217      		cp r30,r18
+ 707 0306 F307      		cpc r31,r19
+ 708 0308 01F4      		brne .L18
+ 709               	/* epilogue start */
+ 191:shared_functions.c **** 	}
+ 192:shared_functions.c **** }
+ 710               		.loc 1 192 0
+ 711 030a 0895      		ret
+ 712               		.cfi_endproc
+ 713               	.LFE9:
+ 715               	.Letext0:
+ 716               		.file 2 "constants.h"
+ 717               		.file 3 "/usr/lib/avr/include/stdint.h"
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 shared_functions.c
+     /tmp/ccQYqHGl.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccQYqHGl.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccQYqHGl.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccQYqHGl.s:5      *ABS*:000000000000003b __RAMPZ__
+     /tmp/ccQYqHGl.s:6      *ABS*:0000000000000034 __CCP__
+     /tmp/ccQYqHGl.s:7      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccQYqHGl.s:8      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccQYqHGl.s:14     .text:0000000000000000 SLayer
+     /tmp/ccQYqHGl.s:74     .text:000000000000003e InverseSLayer
+     /tmp/ccQYqHGl.s:133    .text:000000000000007c M0Multiplication
+     /tmp/ccQYqHGl.s:230    .text:00000000000000f8 M1Multiplication
+     /tmp/ccQYqHGl.s:327    .text:0000000000000174 SR
+     /tmp/ccQYqHGl.s:407    .text:00000000000001d8 InverseSR
+     /tmp/ccQYqHGl.s:487    .text:000000000000023c AddRoundRoundKeyAndRoundConstant
+     /tmp/ccQYqHGl.s:538    .text:0000000000000268 Round
+     /tmp/ccQYqHGl.s:623    .text:00000000000002b8 InverseRound
+     /tmp/ccQYqHGl.s:682    .text:00000000000002f0 Whitening
+
+UNDEFINED SYMBOLS
+S0
+S1

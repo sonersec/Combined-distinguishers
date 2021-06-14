@@ -1,0 +1,931 @@
+Archive member included to satisfy reference by file (symbol)
+
+/usr/lib/gcc/avr/5.4.0/avrxmega6/libgcc.a(_exit.o)
+                              /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o (exit)
+/usr/lib/gcc/avr/5.4.0/avrxmega6/libgcc.a(_copy_data.o)
+                              objdir/simpleserial-prince.o (__do_copy_data)
+/usr/lib/gcc/avr/5.4.0/avrxmega6/libgcc.a(_clear_bss.o)
+                              objdir/simpleserial-prince.o (__do_clear_bss)
+
+Allocating common symbols
+Common symbol       size              file
+
+state               0x8               objdir/simpleserial-prince.o
+roundKeys           0x18              objdir/simpleserial-prince.o
+key                 0x10              objdir/simpleserial-prince.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+text             0x0000000000000000 0x0000000000100000 xr
+data             0x0000000000802000 0x000000000000ffa0 rw !x
+eeprom           0x0000000000810000 0x0000000000010000 rw !x
+fuse             0x0000000000820000 0x0000000000000006 rw !x
+lock             0x0000000000830000 0x0000000000000400 rw !x
+signature        0x0000000000840000 0x0000000000000400 rw !x
+user_signatures  0x0000000000850000 0x0000000000000400 rw !x
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+LOAD /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+LOAD objdir/simpleserial-prince.o
+LOAD objdir/constants.o
+LOAD objdir/encrypt.o
+LOAD objdir/encryption_key_schedule.o
+LOAD objdir/shared_functions.o
+LOAD objdir/simpleserial.o
+LOAD objdir/XMEGA_AES_driver.o
+LOAD objdir/uart.o
+LOAD objdir/usart_driver.o
+LOAD objdir/xmega_hal.o
+LOAD /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/libm.a
+START GROUP
+LOAD /usr/lib/gcc/avr/5.4.0/avrxmega6/libgcc.a
+LOAD /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/libm.a
+LOAD /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/libc.a
+LOAD /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/libatxmega128d3.a
+END GROUP
+                0x0000000000100000                __TEXT_REGION_LENGTH__ = DEFINED (__TEXT_REGION_LENGTH__)?__TEXT_REGION_LENGTH__:0x100000
+                0x000000000000ffa0                __DATA_REGION_LENGTH__ = DEFINED (__DATA_REGION_LENGTH__)?__DATA_REGION_LENGTH__:0xffa0
+                0x0000000000010000                __EEPROM_REGION_LENGTH__ = DEFINED (__EEPROM_REGION_LENGTH__)?__EEPROM_REGION_LENGTH__:0x10000
+                [0x0000000000000006]                __FUSE_REGION_LENGTH__ = DEFINED (__FUSE_REGION_LENGTH__)?__FUSE_REGION_LENGTH__:0x400
+                0x0000000000000400                __LOCK_REGION_LENGTH__ = DEFINED (__LOCK_REGION_LENGTH__)?__LOCK_REGION_LENGTH__:0x400
+                0x0000000000000400                __SIGNATURE_REGION_LENGTH__ = DEFINED (__SIGNATURE_REGION_LENGTH__)?__SIGNATURE_REGION_LENGTH__:0x400
+                0x0000000000000400                __USER_SIGNATURE_REGION_LENGTH__ = DEFINED (__USER_SIGNATURE_REGION_LENGTH__)?__USER_SIGNATURE_REGION_LENGTH__:0x400
+
+.hash
+ *(.hash)
+
+.dynsym
+ *(.dynsym)
+
+.dynstr
+ *(.dynstr)
+
+.gnu.version
+ *(.gnu.version)
+
+.gnu.version_d
+ *(.gnu.version_d)
+
+.gnu.version_r
+ *(.gnu.version_r)
+
+.rel.init
+ *(.rel.init)
+
+.rela.init
+ *(.rela.init)
+
+.rel.text
+ *(.rel.text)
+ *(.rel.text.*)
+ *(.rel.gnu.linkonce.t*)
+
+.rela.text
+ *(.rela.text)
+ *(.rela.text.*)
+ *(.rela.gnu.linkonce.t*)
+
+.rel.fini
+ *(.rel.fini)
+
+.rela.fini
+ *(.rela.fini)
+
+.rel.rodata
+ *(.rel.rodata)
+ *(.rel.rodata.*)
+ *(.rel.gnu.linkonce.r*)
+
+.rela.rodata
+ *(.rela.rodata)
+ *(.rela.rodata.*)
+ *(.rela.gnu.linkonce.r*)
+
+.rel.data
+ *(.rel.data)
+ *(.rel.data.*)
+ *(.rel.gnu.linkonce.d*)
+
+.rela.data
+ *(.rela.data)
+ *(.rela.data.*)
+ *(.rela.gnu.linkonce.d*)
+
+.rel.ctors
+ *(.rel.ctors)
+
+.rela.ctors
+ *(.rela.ctors)
+
+.rel.dtors
+ *(.rel.dtors)
+
+.rela.dtors
+ *(.rela.dtors)
+
+.rel.got
+ *(.rel.got)
+
+.rela.got
+ *(.rela.got)
+
+.rel.bss
+ *(.rel.bss)
+
+.rela.bss
+ *(.rela.bss)
+
+.rel.plt
+ *(.rel.plt)
+
+.rela.plt
+ *(.rela.plt)
+
+.text           0x0000000000000000      0xbaa
+ *(.vectors)
+ .vectors       0x0000000000000000      0x1c8 /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+                0x0000000000000000                __vectors
+                0x0000000000000000                __vector_default
+ *(.vectors)
+ *(.progmem.gcc*)
+                0x00000000000001c8                . = ALIGN (0x2)
+                0x00000000000001c8                __trampolines_start = .
+ *(.trampolines)
+ .trampolines   0x00000000000001c8       0x10 linker stubs
+ *(.trampolines*)
+                0x00000000000001d8                __trampolines_end = .
+ *libprintf_flt.a:*(.progmem.data)
+ *libc.a:*(.progmem.data)
+ *(.progmem*)
+                0x00000000000001d8                . = ALIGN (0x2)
+ *(.jumptables)
+ *(.jumptables*)
+ *(.lowtext)
+ *(.lowtext*)
+                0x00000000000001d8                __ctors_start = .
+ *(.ctors)
+                0x00000000000001d8                __ctors_end = .
+                0x00000000000001d8                __dtors_start = .
+ *(.dtors)
+                0x00000000000001d8                __dtors_end = .
+ SORT(*)(.ctors)
+ SORT(*)(.dtors)
+ *(.init0)
+ .init0         0x00000000000001d8        0x0 /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+                0x00000000000001d8                __init
+ *(.init0)
+ *(.init1)
+ *(.init1)
+ *(.init2)
+ .init2         0x00000000000001d8       0x10 /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+ *(.init2)
+ *(.init3)
+ *(.init3)
+ *(.init4)
+ .init4         0x00000000000001e8       0x1a /usr/lib/gcc/avr/5.4.0/avrxmega6/libgcc.a(_copy_data.o)
+                0x00000000000001e8                __do_copy_data
+ .init4         0x0000000000000202       0x10 /usr/lib/gcc/avr/5.4.0/avrxmega6/libgcc.a(_clear_bss.o)
+                0x0000000000000202                __do_clear_bss
+ *(.init4)
+ *(.init5)
+ *(.init5)
+ *(.init6)
+ *(.init6)
+ *(.init7)
+ *(.init7)
+ *(.init8)
+ *(.init8)
+ *(.init9)
+ .init9         0x0000000000000212        0x8 /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+ *(.init9)
+ *(.text)
+ .text          0x000000000000021a        0x4 /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+                0x000000000000021a                __vector_38
+                0x000000000000021a                __vector_104
+                0x000000000000021a                __vector_22
+                0x000000000000021a                __vector_63
+                0x000000000000021a                __vector_28
+                0x000000000000021a                __vector_67
+                0x000000000000021a                __vector_1
+                0x000000000000021a                __vector_32
+                0x000000000000021a                __vector_75
+                0x000000000000021a                __vector_71
+                0x000000000000021a                __vector_91
+                0x000000000000021a                __vector_34
+                0x000000000000021a                __vector_62
+                0x000000000000021a                __vector_77
+                0x000000000000021a                __vector_102
+                0x000000000000021a                __vector_24
+                0x000000000000021a                __vector_12
+                0x000000000000021a                __vector_55
+                0x000000000000021a                __vector_69
+                0x000000000000021a                __vector_81
+                0x000000000000021a                __vector_90
+                0x000000000000021a                __vector_46
+                0x000000000000021a                __bad_interrupt
+                0x000000000000021a                __vector_72
+                0x000000000000021a                __vector_6
+                0x000000000000021a                __vector_110
+                0x000000000000021a                __vector_31
+                0x000000000000021a                __vector_92
+                0x000000000000021a                __vector_35
+                0x000000000000021a                __vector_78
+                0x000000000000021a                __vector_74
+                0x000000000000021a                __vector_39
+                0x000000000000021a                __vector_107
+                0x000000000000021a                __vector_3
+                0x000000000000021a                __vector_105
+                0x000000000000021a                __vector_98
+                0x000000000000021a                __vector_23
+                0x000000000000021a                __vector_68
+                0x000000000000021a                __vector_30
+                0x000000000000021a                __vector_73
+                0x000000000000021a                __vector_45
+                0x000000000000021a                __vector_25
+                0x000000000000021a                __vector_93
+                0x000000000000021a                __vector_61
+                0x000000000000021a                __vector_11
+                0x000000000000021a                __vector_54
+                0x000000000000021a                __vector_99
+                0x000000000000021a                __vector_13
+                0x000000000000021a                __vector_17
+                0x000000000000021a                __vector_19
+                0x000000000000021a                __vector_56
+                0x000000000000021a                __vector_7
+                0x000000000000021a                __vector_49
+                0x000000000000021a                __vector_41
+                0x000000000000021a                __vector_86
+                0x000000000000021a                __vector_100
+                0x000000000000021a                __vector_101
+                0x000000000000021a                __vector_64
+                0x000000000000021a                __vector_88
+                0x000000000000021a                __vector_109
+                0x000000000000021a                __vector_43
+                0x000000000000021a                __vector_27
+                0x000000000000021a                __vector_5
+                0x000000000000021a                __vector_113
+                0x000000000000021a                __vector_33
+                0x000000000000021a                __vector_76
+                0x000000000000021a                __vector_47
+                0x000000000000021a                __vector_52
+                0x000000000000021a                __vector_37
+                0x000000000000021a                __vector_95
+                0x000000000000021a                __vector_103
+                0x000000000000021a                __vector_96
+                0x000000000000021a                __vector_89
+                0x000000000000021a                __vector_108
+                0x000000000000021a                __vector_4
+                0x000000000000021a                __vector_44
+                0x000000000000021a                __vector_82
+                0x000000000000021a                __vector_106
+                0x000000000000021a                __vector_51
+                0x000000000000021a                __vector_9
+                0x000000000000021a                __vector_2
+                0x000000000000021a                __vector_21
+                0x000000000000021a                __vector_15
+                0x000000000000021a                __vector_66
+                0x000000000000021a                __vector_36
+                0x000000000000021a                __vector_79
+                0x000000000000021a                __vector_58
+                0x000000000000021a                __vector_70
+                0x000000000000021a                __vector_83
+                0x000000000000021a                __vector_29
+                0x000000000000021a                __vector_60
+                0x000000000000021a                __vector_40
+                0x000000000000021a                __vector_85
+                0x000000000000021a                __vector_94
+                0x000000000000021a                __vector_8
+                0x000000000000021a                __vector_26
+                0x000000000000021a                __vector_48
+                0x000000000000021a                __vector_112
+                0x000000000000021a                __vector_111
+                0x000000000000021a                __vector_80
+                0x000000000000021a                __vector_14
+                0x000000000000021a                __vector_84
+                0x000000000000021a                __vector_57
+                0x000000000000021a                __vector_53
+                0x000000000000021a                __vector_10
+                0x000000000000021a                __vector_50
+                0x000000000000021a                __vector_16
+                0x000000000000021a                __vector_59
+                0x000000000000021a                __vector_18
+                0x000000000000021a                __vector_97
+                0x000000000000021a                __vector_20
+                0x000000000000021a                __vector_42
+                0x000000000000021a                __vector_87
+                0x000000000000021a                __vector_65
+ .text          0x000000000000021e       0x80 objdir/simpleserial-prince.o
+                0x000000000000021e                reset
+                0x0000000000000222                InitializeKey
+                0x0000000000000238                get_key
+                0x0000000000000240                InitializeState
+                0x0000000000000256                get_pt
+                0x000000000000029a                InitializeDevice
+                0x000000000000029c                StopDevice
+ .text          0x000000000000029e        0x0 objdir/constants.o
+ .text          0x000000000000029e       0xca objdir/encrypt.o
+                0x000000000000029e                EncryptionPrinceCore
+                0x0000000000000338                Encrypt
+ .text          0x0000000000000368       0x98 objdir/encryption_key_schedule.o
+                0x0000000000000368                RunEncryptionKeySchedule
+ .text          0x0000000000000400      0x30c objdir/shared_functions.o
+                0x0000000000000400                SLayer
+                0x000000000000043e                InverseSLayer
+                0x000000000000047c                M0Multiplication
+                0x00000000000004f8                M1Multiplication
+                0x0000000000000574                SR
+                0x00000000000005d8                InverseSR
+                0x000000000000063c                AddRoundRoundKeyAndRoundConstant
+                0x0000000000000668                Round
+                0x00000000000006b8                InverseRound
+                0x00000000000006f0                Whitening
+ .text          0x000000000000070c      0x266 objdir/simpleserial.o
+                0x000000000000070c                check_version
+                0x0000000000000710                hex_decode
+                0x000000000000079a                simpleserial_addcmd
+                0x00000000000007e0                simpleserial_init
+                0x00000000000007ee                simpleserial_put
+                0x0000000000000856                simpleserial_get
+ .text          0x0000000000000972        0x0 objdir/XMEGA_AES_driver.o
+ .text          0x0000000000000972       0x88 objdir/uart.o
+                0x0000000000000972                init_uart0
+                0x000000000000099a                input_ch_w_timeout_0
+                0x00000000000009de                input_ch_0
+                0x00000000000009ec                output_ch_0
+ .text          0x00000000000009fa      0x11a objdir/usart_driver.o
+                0x00000000000009fa                USART_InterruptDriver_Initialize
+                0x0000000000000a0c                USART_InterruptDriver_DreInterruptLevel_Set
+                0x0000000000000a12                USART_TXBuffer_FreeSpace
+                0x0000000000000a26                USART_TXBuffer_PutByte
+                0x0000000000000a5e                USART_RXBufferData_Available
+                0x0000000000000a6e                USART_RXBuffer_GetByte
+                0x0000000000000a86                USART_RXComplete
+                0x0000000000000ab0                USART_DataRegEmpty
+                0x0000000000000aea                USART_NineBits_PutChar
+                0x0000000000000afe                USART_NineBits_GetChar
+ .text          0x0000000000000b14       0x2c objdir/xmega_hal.o
+                0x0000000000000b14                platform_init
+ .text          0x0000000000000b40        0x0 /usr/lib/gcc/avr/5.4.0/avrxmega6/libgcc.a(_exit.o)
+ .text          0x0000000000000b40        0x0 /usr/lib/gcc/avr/5.4.0/avrxmega6/libgcc.a(_copy_data.o)
+ .text          0x0000000000000b40        0x0 /usr/lib/gcc/avr/5.4.0/avrxmega6/libgcc.a(_clear_bss.o)
+                0x0000000000000b40                . = ALIGN (0x2)
+ *(.text.*)
+ .text.startup  0x0000000000000b40       0x66 objdir/simpleserial-prince.o
+                0x0000000000000b40                main
+ .text.libgcc.mul
+                0x0000000000000ba6        0x0 /usr/lib/gcc/avr/5.4.0/avrxmega6/libgcc.a(_exit.o)
+ .text.libgcc.div
+                0x0000000000000ba6        0x0 /usr/lib/gcc/avr/5.4.0/avrxmega6/libgcc.a(_exit.o)
+ .text.libgcc   0x0000000000000ba6        0x0 /usr/lib/gcc/avr/5.4.0/avrxmega6/libgcc.a(_exit.o)
+ .text.libgcc.prologue
+                0x0000000000000ba6        0x0 /usr/lib/gcc/avr/5.4.0/avrxmega6/libgcc.a(_exit.o)
+ .text.libgcc.builtins
+                0x0000000000000ba6        0x0 /usr/lib/gcc/avr/5.4.0/avrxmega6/libgcc.a(_exit.o)
+ .text.libgcc.fmul
+                0x0000000000000ba6        0x0 /usr/lib/gcc/avr/5.4.0/avrxmega6/libgcc.a(_exit.o)
+ .text.libgcc.fixed
+                0x0000000000000ba6        0x0 /usr/lib/gcc/avr/5.4.0/avrxmega6/libgcc.a(_exit.o)
+ .text.libgcc.mul
+                0x0000000000000ba6        0x0 /usr/lib/gcc/avr/5.4.0/avrxmega6/libgcc.a(_copy_data.o)
+ .text.libgcc.div
+                0x0000000000000ba6        0x0 /usr/lib/gcc/avr/5.4.0/avrxmega6/libgcc.a(_copy_data.o)
+ .text.libgcc   0x0000000000000ba6        0x0 /usr/lib/gcc/avr/5.4.0/avrxmega6/libgcc.a(_copy_data.o)
+ .text.libgcc.prologue
+                0x0000000000000ba6        0x0 /usr/lib/gcc/avr/5.4.0/avrxmega6/libgcc.a(_copy_data.o)
+ .text.libgcc.builtins
+                0x0000000000000ba6        0x0 /usr/lib/gcc/avr/5.4.0/avrxmega6/libgcc.a(_copy_data.o)
+ .text.libgcc.fmul
+                0x0000000000000ba6        0x0 /usr/lib/gcc/avr/5.4.0/avrxmega6/libgcc.a(_copy_data.o)
+ .text.libgcc.fixed
+                0x0000000000000ba6        0x0 /usr/lib/gcc/avr/5.4.0/avrxmega6/libgcc.a(_copy_data.o)
+ .text.libgcc.mul
+                0x0000000000000ba6        0x0 /usr/lib/gcc/avr/5.4.0/avrxmega6/libgcc.a(_clear_bss.o)
+ .text.libgcc.div
+                0x0000000000000ba6        0x0 /usr/lib/gcc/avr/5.4.0/avrxmega6/libgcc.a(_clear_bss.o)
+ .text.libgcc   0x0000000000000ba6        0x0 /usr/lib/gcc/avr/5.4.0/avrxmega6/libgcc.a(_clear_bss.o)
+ .text.libgcc.prologue
+                0x0000000000000ba6        0x0 /usr/lib/gcc/avr/5.4.0/avrxmega6/libgcc.a(_clear_bss.o)
+ .text.libgcc.builtins
+                0x0000000000000ba6        0x0 /usr/lib/gcc/avr/5.4.0/avrxmega6/libgcc.a(_clear_bss.o)
+ .text.libgcc.fmul
+                0x0000000000000ba6        0x0 /usr/lib/gcc/avr/5.4.0/avrxmega6/libgcc.a(_clear_bss.o)
+ .text.libgcc.fixed
+                0x0000000000000ba6        0x0 /usr/lib/gcc/avr/5.4.0/avrxmega6/libgcc.a(_clear_bss.o)
+                0x0000000000000ba6                . = ALIGN (0x2)
+ *(.fini9)
+ .fini9         0x0000000000000ba6        0x0 /usr/lib/gcc/avr/5.4.0/avrxmega6/libgcc.a(_exit.o)
+                0x0000000000000ba6                exit
+                0x0000000000000ba6                _exit
+ *(.fini9)
+ *(.fini8)
+ *(.fini8)
+ *(.fini7)
+ *(.fini7)
+ *(.fini6)
+ *(.fini6)
+ *(.fini5)
+ *(.fini5)
+ *(.fini4)
+ *(.fini4)
+ *(.fini3)
+ *(.fini3)
+ *(.fini2)
+ *(.fini2)
+ *(.fini1)
+ *(.fini1)
+ *(.fini0)
+ .fini0         0x0000000000000ba6        0x4 /usr/lib/gcc/avr/5.4.0/avrxmega6/libgcc.a(_exit.o)
+ *(.fini0)
+                0x0000000000000baa                _etext = .
+
+.data           0x0000000000802000       0xb0 load address 0x0000000000000baa
+                0x0000000000802000                PROVIDE (__data_start, .)
+ *(.data)
+ .data          0x0000000000802000        0x0 /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+ .data          0x0000000000802000        0x0 objdir/simpleserial-prince.o
+ .data          0x0000000000802000        0x0 objdir/constants.o
+ .data          0x0000000000802000        0x0 objdir/encrypt.o
+ .data          0x0000000000802000        0x0 objdir/encryption_key_schedule.o
+ .data          0x0000000000802000        0x0 objdir/shared_functions.o
+ .data          0x0000000000802000        0x0 objdir/simpleserial.o
+ .data          0x0000000000802000        0x0 objdir/XMEGA_AES_driver.o
+ .data          0x0000000000802000        0x0 objdir/uart.o
+ .data          0x0000000000802000        0x0 objdir/usart_driver.o
+ .data          0x0000000000802000        0x0 objdir/xmega_hal.o
+ .data          0x0000000000802000        0x0 /usr/lib/gcc/avr/5.4.0/avrxmega6/libgcc.a(_exit.o)
+ .data          0x0000000000802000        0x0 /usr/lib/gcc/avr/5.4.0/avrxmega6/libgcc.a(_copy_data.o)
+ .data          0x0000000000802000        0x0 /usr/lib/gcc/avr/5.4.0/avrxmega6/libgcc.a(_clear_bss.o)
+ *(.data*)
+ *(.gnu.linkonce.d*)
+ *(.rodata)
+ .rodata        0x0000000000802000       0x20 objdir/simpleserial-prince.o
+                0x0000000000802000                expectedCiphertext
+                0x0000000000802008                expectedKey
+                0x0000000000802018                expectedPlaintext
+ .rodata        0x0000000000802020       0x80 objdir/constants.o
+                0x0000000000802020                RC
+                0x0000000000802080                S1
+                0x0000000000802090                S0
+ .rodata        0x00000000008020a0       0x10 objdir/simpleserial.o
+ *(.rodata*)
+ *(.gnu.linkonce.r*)
+                0x00000000008020b0                . = ALIGN (0x2)
+                0x00000000008020b0                _edata = .
+                0x00000000008020b0                PROVIDE (__data_end, .)
+
+.bss            0x00000000008020b0       0x64
+                0x00000000008020b0                PROVIDE (__bss_start, .)
+ *(.bss)
+ .bss           0x00000000008020b0        0x0 /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+ .bss           0x00000000008020b0        0x0 objdir/simpleserial-prince.o
+ .bss           0x00000000008020b0        0x0 objdir/constants.o
+ .bss           0x00000000008020b0        0x0 objdir/encrypt.o
+ .bss           0x00000000008020b0        0x0 objdir/encryption_key_schedule.o
+ .bss           0x00000000008020b0        0x0 objdir/shared_functions.o
+ .bss           0x00000000008020b0       0x34 objdir/simpleserial.o
+ .bss           0x00000000008020e4        0x0 objdir/XMEGA_AES_driver.o
+ .bss           0x00000000008020e4        0x0 objdir/uart.o
+ .bss           0x00000000008020e4        0x0 objdir/usart_driver.o
+ .bss           0x00000000008020e4        0x0 objdir/xmega_hal.o
+ .bss           0x00000000008020e4        0x0 /usr/lib/gcc/avr/5.4.0/avrxmega6/libgcc.a(_exit.o)
+ .bss           0x00000000008020e4        0x0 /usr/lib/gcc/avr/5.4.0/avrxmega6/libgcc.a(_copy_data.o)
+ .bss           0x00000000008020e4        0x0 /usr/lib/gcc/avr/5.4.0/avrxmega6/libgcc.a(_clear_bss.o)
+ *(.bss*)
+ *(COMMON)
+ COMMON         0x00000000008020e4       0x30 objdir/simpleserial-prince.o
+                0x00000000008020e4                state
+                0x00000000008020ec                roundKeys
+                0x0000000000802104                key
+                0x0000000000802114                PROVIDE (__bss_end, .)
+                0x0000000000000baa                __data_load_start = LOADADDR (.data)
+                0x0000000000000c5a                __data_load_end = (__data_load_start + SIZEOF (.data))
+
+.noinit         0x0000000000802114        0x0
+                [!provide]                        PROVIDE (__noinit_start, .)
+ *(.noinit*)
+                [!provide]                        PROVIDE (__noinit_end, .)
+                0x0000000000802114                _end = .
+                [!provide]                        PROVIDE (__heap_start, .)
+
+.eeprom         0x0000000000810000        0x0
+ *(.eeprom*)
+                0x0000000000810000                __eeprom_end = .
+
+.fuse
+ *(.fuse)
+ *(.lfuse)
+ *(.hfuse)
+ *(.efuse)
+
+.lock
+ *(.lock*)
+
+.signature
+ *(.signature*)
+
+.user_signatures
+ *(.user_signatures*)
+
+.stab
+ *(.stab)
+
+.stabstr
+ *(.stabstr)
+
+.stab.excl
+ *(.stab.excl)
+
+.stab.exclstr
+ *(.stab.exclstr)
+
+.stab.index
+ *(.stab.index)
+
+.stab.indexstr
+ *(.stab.indexstr)
+
+.comment        0x0000000000000000       0x11
+ *(.comment)
+ .comment       0x0000000000000000       0x11 objdir/simpleserial-prince.o
+                                         0x12 (size before relaxing)
+ .comment       0x0000000000000011       0x12 objdir/constants.o
+ .comment       0x0000000000000011       0x12 objdir/encrypt.o
+ .comment       0x0000000000000011       0x12 objdir/encryption_key_schedule.o
+ .comment       0x0000000000000011       0x12 objdir/shared_functions.o
+ .comment       0x0000000000000011       0x12 objdir/simpleserial.o
+ .comment       0x0000000000000011       0x12 objdir/XMEGA_AES_driver.o
+ .comment       0x0000000000000011       0x12 objdir/uart.o
+ .comment       0x0000000000000011       0x12 objdir/usart_driver.o
+ .comment       0x0000000000000011       0x12 objdir/xmega_hal.o
+
+.note.gnu.avr.deviceinfo
+                0x0000000000000000       0x40
+ .note.gnu.avr.deviceinfo
+                0x0000000000000000       0x40 /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+
+.note.gnu.build-id
+ *(.note.gnu.build-id)
+
+.debug
+ *(.debug)
+
+.line
+ *(.line)
+
+.debug_srcinfo
+ *(.debug_srcinfo)
+
+.debug_sfnames
+ *(.debug_sfnames)
+
+.debug_aranges  0x0000000000000000      0x120
+ *(.debug_aranges)
+ .debug_aranges
+                0x0000000000000000       0x28 objdir/simpleserial-prince.o
+ .debug_aranges
+                0x0000000000000028       0x18 objdir/constants.o
+ .debug_aranges
+                0x0000000000000040       0x20 objdir/encrypt.o
+ .debug_aranges
+                0x0000000000000060       0x20 objdir/encryption_key_schedule.o
+ .debug_aranges
+                0x0000000000000080       0x20 objdir/shared_functions.o
+ .debug_aranges
+                0x00000000000000a0       0x20 objdir/simpleserial.o
+ .debug_aranges
+                0x00000000000000c0       0x20 objdir/uart.o
+ .debug_aranges
+                0x00000000000000e0       0x20 objdir/usart_driver.o
+ .debug_aranges
+                0x0000000000000100       0x20 objdir/xmega_hal.o
+
+.debug_pubnames
+ *(.debug_pubnames)
+
+.debug_info     0x0000000000000000     0x4077
+ *(.debug_info .gnu.linkonce.wi.*)
+ .debug_info    0x0000000000000000     0x2168 /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+ .debug_info    0x0000000000002168      0x662 objdir/simpleserial-prince.o
+ .debug_info    0x00000000000027ca       0xcf objdir/constants.o
+ .debug_info    0x0000000000002899      0x315 objdir/encrypt.o
+ .debug_info    0x0000000000002bae       0xb5 objdir/encryption_key_schedule.o
+ .debug_info    0x0000000000002c63      0x4ea objdir/shared_functions.o
+ .debug_info    0x000000000000314d      0x455 objdir/simpleserial.o
+ .debug_info    0x00000000000035a2      0x39c objdir/uart.o
+ .debug_info    0x000000000000393e      0x584 objdir/usart_driver.o
+ .debug_info    0x0000000000003ec2      0x1b5 objdir/xmega_hal.o
+
+.debug_abbrev   0x0000000000000000     0x2a20
+ *(.debug_abbrev)
+ .debug_abbrev  0x0000000000000000     0x1fa2 /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+ .debug_abbrev  0x0000000000001fa2      0x1c5 objdir/simpleserial-prince.o
+ .debug_abbrev  0x0000000000002167       0x5d objdir/constants.o
+ .debug_abbrev  0x00000000000021c4       0xdb objdir/encrypt.o
+ .debug_abbrev  0x000000000000229f       0x87 objdir/encryption_key_schedule.o
+ .debug_abbrev  0x0000000000002326      0x11b objdir/shared_functions.o
+ .debug_abbrev  0x0000000000002441      0x1cc objdir/simpleserial.o
+ .debug_abbrev  0x000000000000260d      0x12e objdir/uart.o
+ .debug_abbrev  0x000000000000273b      0x22c objdir/usart_driver.o
+ .debug_abbrev  0x0000000000002967       0xb9 objdir/xmega_hal.o
+
+.debug_line     0x0000000000000000      0xc31
+ *(.debug_line .debug_line.* .debug_line_end)
+ .debug_line    0x0000000000000000       0x1a /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+ .debug_line    0x000000000000001a      0x1de objdir/simpleserial-prince.o
+ .debug_line    0x00000000000001f8       0x4a objdir/constants.o
+ .debug_line    0x0000000000000242      0x105 objdir/encrypt.o
+ .debug_line    0x0000000000000347       0xb2 objdir/encryption_key_schedule.o
+ .debug_line    0x00000000000003f9      0x214 objdir/shared_functions.o
+ .debug_line    0x000000000000060d      0x233 objdir/simpleserial.o
+ .debug_line    0x0000000000000840        0x0 objdir/XMEGA_AES_driver.o
+ .debug_line    0x0000000000000840      0x113 objdir/uart.o
+ .debug_line    0x0000000000000953      0x220 objdir/usart_driver.o
+ .debug_line    0x0000000000000b73       0xbe objdir/xmega_hal.o
+
+.debug_frame    0x0000000000000000      0x4a4
+ *(.debug_frame)
+ .debug_frame   0x0000000000000000       0xa8 objdir/simpleserial-prince.o
+ .debug_frame   0x00000000000000a8       0x70 objdir/encrypt.o
+ .debug_frame   0x0000000000000118       0x3c objdir/encryption_key_schedule.o
+ .debug_frame   0x0000000000000154      0x108 objdir/shared_functions.o
+ .debug_frame   0x000000000000025c       0xe8 objdir/simpleserial.o
+ .debug_frame   0x0000000000000344       0x68 objdir/uart.o
+ .debug_frame   0x00000000000003ac       0xd4 objdir/usart_driver.o
+ .debug_frame   0x0000000000000480       0x24 objdir/xmega_hal.o
+
+.debug_str      0x0000000000000000     0x1ff3
+ *(.debug_str)
+ .debug_str     0x0000000000000000     0x1641 /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+ .debug_str     0x0000000000001641      0x343 objdir/simpleserial-prince.o
+                                        0x377 (size before relaxing)
+ .debug_str     0x0000000000001984        0xc objdir/constants.o
+                                        0x167 (size before relaxing)
+ .debug_str     0x0000000000001990       0x8d objdir/encrypt.o
+                                        0x207 (size before relaxing)
+ .debug_str     0x0000000000001a1d       0x1a objdir/encryption_key_schedule.o
+                                        0x18f (size before relaxing)
+ .debug_str     0x0000000000001a37       0x45 objdir/shared_functions.o
+                                        0x21b (size before relaxing)
+ .debug_str     0x0000000000001a7c       0x8d objdir/simpleserial.o
+                                        0x24a (size before relaxing)
+ .debug_str     0x0000000000001b09       0x22 objdir/XMEGA_AES_driver.o
+                                        0x105 (size before relaxing)
+ .debug_str     0x0000000000001b2b      0x157 objdir/uart.o
+                                        0x3c8 (size before relaxing)
+ .debug_str     0x0000000000001c82      0x25d objdir/usart_driver.o
+                                        0x45f (size before relaxing)
+ .debug_str     0x0000000000001edf      0x114 objdir/xmega_hal.o
+                                        0x295 (size before relaxing)
+
+.debug_loc      0x0000000000000000     0x1db8
+ *(.debug_loc)
+ .debug_loc     0x0000000000000000      0x18a objdir/simpleserial-prince.o
+ .debug_loc     0x000000000000018a      0x1e1 objdir/encrypt.o
+ .debug_loc     0x000000000000036b      0x11e objdir/encryption_key_schedule.o
+ .debug_loc     0x0000000000000489     0x1114 objdir/shared_functions.o
+ .debug_loc     0x000000000000159d      0x3d4 objdir/simpleserial.o
+ .debug_loc     0x0000000000001971       0xc2 objdir/uart.o
+ .debug_loc     0x0000000000001a33      0x385 objdir/usart_driver.o
+
+.debug_macinfo
+ *(.debug_macinfo)
+
+.debug_weaknames
+ *(.debug_weaknames)
+
+.debug_funcnames
+ *(.debug_funcnames)
+
+.debug_typenames
+ *(.debug_typenames)
+
+.debug_varnames
+ *(.debug_varnames)
+
+.debug_pubtypes
+ *(.debug_pubtypes)
+
+.debug_ranges   0x0000000000000000       0x18
+ *(.debug_ranges)
+ .debug_ranges  0x0000000000000000       0x18 objdir/simpleserial-prince.o
+
+.debug_macro
+ *(.debug_macro)
+OUTPUT(simpleserial-prince-CWLITEXMEGA.elf elf32-avr)
+LOAD linker stubs
+
+Cross Reference Table
+
+Symbol                                            File
+AddRoundRoundKeyAndRoundConstant                  objdir/shared_functions.o
+                                                  objdir/encrypt.o
+Encrypt                                           objdir/encrypt.o
+                                                  objdir/simpleserial-prince.o
+EncryptionPrinceCore                              objdir/encrypt.o
+InitializeDevice                                  objdir/simpleserial-prince.o
+InitializeKey                                     objdir/simpleserial-prince.o
+InitializeState                                   objdir/simpleserial-prince.o
+InverseRound                                      objdir/shared_functions.o
+                                                  objdir/encrypt.o
+InverseSLayer                                     objdir/shared_functions.o
+                                                  objdir/encrypt.o
+InverseSR                                         objdir/shared_functions.o
+M0Multiplication                                  objdir/shared_functions.o
+                                                  objdir/encrypt.o
+M1Multiplication                                  objdir/shared_functions.o
+                                                  objdir/encrypt.o
+RC                                                objdir/constants.o
+                                                  objdir/encrypt.o
+Round                                             objdir/shared_functions.o
+                                                  objdir/encrypt.o
+RunEncryptionKeySchedule                          objdir/encryption_key_schedule.o
+                                                  objdir/simpleserial-prince.o
+S0                                                objdir/constants.o
+                                                  objdir/shared_functions.o
+S1                                                objdir/constants.o
+                                                  objdir/shared_functions.o
+SLayer                                            objdir/shared_functions.o
+                                                  objdir/encrypt.o
+SR                                                objdir/shared_functions.o
+StopDevice                                        objdir/simpleserial-prince.o
+USART_DataRegEmpty                                objdir/usart_driver.o
+USART_InterruptDriver_DreInterruptLevel_Set       objdir/usart_driver.o
+USART_InterruptDriver_Initialize                  objdir/usart_driver.o
+USART_NineBits_GetChar                            objdir/usart_driver.o
+USART_NineBits_PutChar                            objdir/usart_driver.o
+USART_RXBufferData_Available                      objdir/usart_driver.o
+USART_RXBuffer_GetByte                            objdir/usart_driver.o
+USART_RXComplete                                  objdir/usart_driver.o
+USART_TXBuffer_FreeSpace                          objdir/usart_driver.o
+USART_TXBuffer_PutByte                            objdir/usart_driver.o
+Whitening                                         objdir/shared_functions.o
+                                                  objdir/encrypt.o
+__FUSE_REGION_LENGTH__                            /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__bad_interrupt                                   /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__bss_end                                         /usr/lib/gcc/avr/5.4.0/avrxmega6/libgcc.a(_clear_bss.o)
+__bss_start                                       /usr/lib/gcc/avr/5.4.0/avrxmega6/libgcc.a(_clear_bss.o)
+__data_end                                        /usr/lib/gcc/avr/5.4.0/avrxmega6/libgcc.a(_copy_data.o)
+__data_load_start                                 /usr/lib/gcc/avr/5.4.0/avrxmega6/libgcc.a(_copy_data.o)
+__data_start                                      /usr/lib/gcc/avr/5.4.0/avrxmega6/libgcc.a(_copy_data.o)
+__do_clear_bss                                    /usr/lib/gcc/avr/5.4.0/avrxmega6/libgcc.a(_clear_bss.o)
+                                                  objdir/simpleserial.o
+                                                  objdir/simpleserial-prince.o
+__do_copy_data                                    /usr/lib/gcc/avr/5.4.0/avrxmega6/libgcc.a(_copy_data.o)
+                                                  objdir/simpleserial.o
+                                                  objdir/constants.o
+                                                  objdir/simpleserial-prince.o
+__heap_end                                        /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__init                                            /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__stack                                           /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_1                                        /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_10                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_100                                      /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_101                                      /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_102                                      /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_103                                      /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_104                                      /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_105                                      /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_106                                      /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_107                                      /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_108                                      /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_109                                      /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_11                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_110                                      /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_111                                      /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_112                                      /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_113                                      /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_12                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_13                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_14                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_15                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_16                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_17                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_18                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_19                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_2                                        /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_20                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_21                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_22                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_23                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_24                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_25                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_26                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_27                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_28                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_29                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_3                                        /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_30                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_31                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_32                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_33                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_34                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_35                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_36                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_37                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_38                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_39                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_4                                        /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_40                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_41                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_42                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_43                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_44                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_45                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_46                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_47                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_48                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_49                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_5                                        /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_50                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_51                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_52                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_53                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_54                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_55                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_56                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_57                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_58                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_59                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_6                                        /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_60                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_61                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_62                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_63                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_64                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_65                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_66                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_67                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_68                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_69                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_7                                        /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_70                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_71                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_72                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_73                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_74                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_75                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_76                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_77                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_78                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_79                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_8                                        /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_80                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_81                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_82                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_83                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_84                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_85                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_86                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_87                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_88                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_89                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_9                                        /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_90                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_91                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_92                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_93                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_94                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_95                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_96                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_97                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_98                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_99                                       /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vector_default                                  /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+__vectors                                         /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+_exit                                             /usr/lib/gcc/avr/5.4.0/avrxmega6/libgcc.a(_exit.o)
+check_version                                     objdir/simpleserial.o
+exit                                              /usr/lib/gcc/avr/5.4.0/avrxmega6/libgcc.a(_exit.o)
+                                                  /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+expectedCiphertext                                objdir/simpleserial-prince.o
+expectedKey                                       objdir/simpleserial-prince.o
+expectedPlaintext                                 objdir/simpleserial-prince.o
+get_key                                           objdir/simpleserial-prince.o
+get_pt                                            objdir/simpleserial-prince.o
+hex_decode                                        objdir/simpleserial.o
+init_uart0                                        objdir/uart.o
+                                                  objdir/simpleserial-prince.o
+input_ch_0                                        objdir/uart.o
+                                                  objdir/simpleserial.o
+input_ch_w_timeout_0                              objdir/uart.o
+key                                               objdir/simpleserial-prince.o
+main                                              objdir/simpleserial-prince.o
+                                                  /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avrxmega6/crtatxmega128d3.o
+output_ch_0                                       objdir/uart.o
+                                                  objdir/simpleserial.o
+                                                  objdir/simpleserial-prince.o
+platform_init                                     objdir/xmega_hal.o
+                                                  objdir/simpleserial-prince.o
+reset                                             objdir/simpleserial-prince.o
+roundKeys                                         objdir/simpleserial-prince.o
+simpleserial_addcmd                               objdir/simpleserial.o
+                                                  objdir/simpleserial-prince.o
+simpleserial_get                                  objdir/simpleserial.o
+                                                  objdir/simpleserial-prince.o
+simpleserial_init                                 objdir/simpleserial.o
+                                                  objdir/simpleserial-prince.o
+simpleserial_put                                  objdir/simpleserial.o
+                                                  objdir/simpleserial-prince.o
+state                                             objdir/simpleserial-prince.o

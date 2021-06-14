@@ -1,0 +1,547 @@
+   1               		.file	"simpleserial-prince.c"
+   2               	__SP_H__ = 0x3e
+   3               	__SP_L__ = 0x3d
+   4               	__SREG__ = 0x3f
+   5               	__RAMPZ__ = 0x3b
+   6               	__CCP__ = 0x34
+   7               	__tmp_reg__ = 0
+   8               	__zero_reg__ = 1
+   9               		.text
+  10               	.Ltext0:
+  11               		.cfi_sections	.debug_frame
+  12               	.global	reset
+  14               	reset:
+  15               	.LFB15:
+  16               		.file 1 "simpleserial-prince.c"
+   1:simpleserial-prince.c **** /*
+   2:simpleserial-prince.c ****     This file is part of the ChipWhisperer Example Targets
+   3:simpleserial-prince.c ****     Copyright (C) 2012-2017 NewAE Technology Inc.
+   4:simpleserial-prince.c **** 
+   5:simpleserial-prince.c ****     This program is free software: you can redistribute it and/or modify
+   6:simpleserial-prince.c ****     it under the terms of the GNU General Public License as published by
+   7:simpleserial-prince.c ****     the Free Software Foundation, either version 3 of the License, or
+   8:simpleserial-prince.c ****     (at your option) any later version.
+   9:simpleserial-prince.c **** 
+  10:simpleserial-prince.c ****     This program is distributed in the hope that it will be useful,
+  11:simpleserial-prince.c ****     but WITHOUT ANY WARRANTY; without even the implied warranty of
+  12:simpleserial-prince.c ****     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  13:simpleserial-prince.c ****     GNU General Public License for more details.
+  14:simpleserial-prince.c **** 
+  15:simpleserial-prince.c ****     You should have received a copy of the GNU General Public License
+  16:simpleserial-prince.c ****     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  17:simpleserial-prince.c **** */
+  18:simpleserial-prince.c **** 
+  19:simpleserial-prince.c **** //#include "aes-independant.h"
+  20:simpleserial-prince.c **** #include "hal.h"
+  21:simpleserial-prince.c **** #include "simpleserial.h"
+  22:simpleserial-prince.c **** #include "cipher.h"
+  23:simpleserial-prince.c **** #include "constants.h"
+  24:simpleserial-prince.c **** #include <stdint.h>
+  25:simpleserial-prince.c **** #include <stdlib.h>
+  26:simpleserial-prince.c **** 
+  27:simpleserial-prince.c **** //#define RAM_DATA_BYTE uint8_t ALIGNED
+  28:simpleserial-prince.c **** 
+  29:simpleserial-prince.c **** const uint8_t expectedPlaintext[BLOCK_SIZE] = {0xef, 0xcd, 0x0ab, 0x89, 0x67, 0x45, 0x23, 0x01};
+  30:simpleserial-prince.c **** const uint8_t expectedKey[KEY_SIZE] = {0xff, 0xee, 0xdd, 0xcc, 0xbb, 0xaa, 0x99, 0x88, 0x77, 0x66, 
+  31:simpleserial-prince.c **** const uint8_t expectedCiphertext[BLOCK_SIZE] = {0x29, 0xeb, 0xb5, 0x9f, 0xb1, 0xea, 0x67, 0xfc};
+  32:simpleserial-prince.c **** 
+  33:simpleserial-prince.c **** 
+  34:simpleserial-prince.c **** /*
+  35:simpleserial-prince.c **** uint8_t get_mask(uint8_t* m)
+  36:simpleserial-prince.c **** {
+  37:simpleserial-prince.c ****   aes_indep_mask(m);
+  38:simpleserial-prince.c ****   return 0x00;
+  39:simpleserial-prince.c **** }
+  40:simpleserial-prince.c **** */
+  41:simpleserial-prince.c **** //May not fit chipwhisperer format
+  42:simpleserial-prince.c **** 	RAM_DATA_BYTE state[BLOCK_SIZE];
+  43:simpleserial-prince.c **** 
+  44:simpleserial-prince.c ****     	RAM_DATA_BYTE key[KEY_SIZE];
+  45:simpleserial-prince.c **** 
+  46:simpleserial-prince.c ****     	RAM_DATA_BYTE roundKeys[ROUND_KEYS_SIZE];
+  47:simpleserial-prince.c **** //
+  48:simpleserial-prince.c **** 
+  49:simpleserial-prince.c **** 
+  50:simpleserial-prince.c **** void InitializeKey(uint8_t *k)
+  51:simpleserial-prince.c **** {
+  52:simpleserial-prince.c ****     uint8_t i;
+  53:simpleserial-prince.c **** 
+  54:simpleserial-prince.c ****     for(i = 0; i < KEY_SIZE; i++)
+  55:simpleserial-prince.c ****     {
+  56:simpleserial-prince.c ****         key[i] = k[i];
+  57:simpleserial-prince.c ****     }
+  58:simpleserial-prince.c **** }
+  59:simpleserial-prince.c **** 
+  60:simpleserial-prince.c **** uint8_t get_key(uint8_t* k)
+  61:simpleserial-prince.c **** {
+  62:simpleserial-prince.c **** 	InitializeKey(k); //need to get from serial port
+  63:simpleserial-prince.c **** 	//aes_indep_key(k);
+  64:simpleserial-prince.c **** 	return 0x00;
+  65:simpleserial-prince.c **** 	
+  66:simpleserial-prince.c **** 	
+  67:simpleserial-prince.c **** }
+  68:simpleserial-prince.c **** 
+  69:simpleserial-prince.c **** void InitializeState(uint8_t *pt)
+  70:simpleserial-prince.c **** {
+  71:simpleserial-prince.c ****     uint8_t i;
+  72:simpleserial-prince.c **** 
+  73:simpleserial-prince.c ****     for(i = 0; i < BLOCK_SIZE; i++)
+  74:simpleserial-prince.c ****     {
+  75:simpleserial-prince.c ****         state[i] = pt[i];
+  76:simpleserial-prince.c ****     }
+  77:simpleserial-prince.c **** }
+  78:simpleserial-prince.c **** 
+  79:simpleserial-prince.c **** uint8_t get_pt(uint8_t* pt)
+  80:simpleserial-prince.c **** {
+  81:simpleserial-prince.c ****     InitializeState(pt); // state is plaintext and need to get from serialport
+  82:simpleserial-prince.c **** 	//aes_indep_enc_pretrigger(pt);
+  83:simpleserial-prince.c ****     
+  84:simpleserial-prince.c **** 	trigger_high();
+  85:simpleserial-prince.c **** 
+  86:simpleserial-prince.c ****   #ifdef ADD_JITTER
+  87:simpleserial-prince.c ****   for (volatile uint8_t k = 0; k < (*pt & 0x0F); k++);
+  88:simpleserial-prince.c ****   #endif
+  89:simpleserial-prince.c **** 
+  90:simpleserial-prince.c **** 	//BEGIN_ENCRYPTION_KEY_SCHEDULE(); //this function is defined in common.h to start the cycle count
+  91:simpleserial-prince.c ****     RunEncryptionKeySchedule(key, roundKeys);
+  92:simpleserial-prince.c ****     //END_ENCRYPTION_KEY_SCHEDULE();
+  93:simpleserial-prince.c **** 	
+  94:simpleserial-prince.c **** 	
+  95:simpleserial-prince.c **** 	//BEGIN_ENCRYPTION(); //This function is defined in common.h to start the cycle count
+  96:simpleserial-prince.c ****     Encrypt(state, roundKeys); //This is the function where real encrpytion starts
+  97:simpleserial-prince.c ****     //END_ENCRYPTION();
+  98:simpleserial-prince.c **** 	
+  99:simpleserial-prince.c **** 	//aes_indep_enc(pt); 
+ 100:simpleserial-prince.c **** 	trigger_low();
+ 101:simpleserial-prince.c ****     
+ 102:simpleserial-prince.c ****     //aes_indep_enc_posttrigger(pt);
+ 103:simpleserial-prince.c ****     
+ 104:simpleserial-prince.c **** 	simpleserial_put('r', BLOCK_SIZE, state); //state should be updated to ciphertext but for now leav
+ 105:simpleserial-prince.c **** 	return 0x00;
+ 106:simpleserial-prince.c **** }
+ 107:simpleserial-prince.c **** 
+ 108:simpleserial-prince.c **** 
+ 109:simpleserial-prince.c **** uint8_t reset(uint8_t* x)
+ 110:simpleserial-prince.c **** {
+  17               		.loc 1 110 0
+  18               		.cfi_startproc
+  19               	.LVL0:
+  20               	/* prologue: function */
+  21               	/* frame size = 0 */
+  22               	/* stack size = 0 */
+  23               	.L__stack_usage = 0
+ 111:simpleserial-prince.c ****     // Reset key here if needed
+ 112:simpleserial-prince.c **** 	return 0x00;
+ 113:simpleserial-prince.c **** }
+  24               		.loc 1 113 0
+  25 0000 80E0      		ldi r24,0
+  26               	.LVL1:
+  27 0002 0895      		ret
+  28               		.cfi_endproc
+  29               	.LFE15:
+  31               	.global	InitializeKey
+  33               	InitializeKey:
+  34               	.LFB11:
+  51:simpleserial-prince.c ****     uint8_t i;
+  35               		.loc 1 51 0
+  36               		.cfi_startproc
+  37               	.LVL2:
+  38               	/* prologue: function */
+  39               	/* frame size = 0 */
+  40               	/* stack size = 0 */
+  41               	.L__stack_usage = 0
+  42 0004 E0E0      		ldi r30,lo8(key)
+  43 0006 F0E0      		ldi r31,hi8(key)
+  44               	.LVL3:
+  45               	.L3:
+  56:simpleserial-prince.c ****     }
+  46               		.loc 1 56 0 discriminator 3
+  47 0008 DC01      		movw r26,r24
+  48 000a 2D91      		ld r18,X+
+  49 000c CD01      		movw r24,r26
+  50               	.LVL4:
+  51 000e 2193      		st Z+,r18
+  52               	.LVL5:
+  54:simpleserial-prince.c ****     {
+  53               		.loc 1 54 0 discriminator 3
+  54 0010 B0E0      		ldi r27,hi8(key+16)
+  55 0012 E030      		cpi r30,lo8(key+16)
+  56 0014 FB07      		cpc r31,r27
+  57 0016 01F4      		brne .L3
+  58               	/* epilogue start */
+  58:simpleserial-prince.c **** 
+  59               		.loc 1 58 0
+  60 0018 0895      		ret
+  61               		.cfi_endproc
+  62               	.LFE11:
+  64               	.global	get_key
+  66               	get_key:
+  67               	.LFB12:
+  61:simpleserial-prince.c **** 	InitializeKey(k); //need to get from serial port
+  68               		.loc 1 61 0
+  69               		.cfi_startproc
+  70               	.LVL6:
+  71               	/* prologue: function */
+  72               	/* frame size = 0 */
+  73               	/* stack size = 0 */
+  74               	.L__stack_usage = 0
+  62:simpleserial-prince.c **** 	//aes_indep_key(k);
+  75               		.loc 1 62 0
+  76 001a 0E94 0000 		call InitializeKey
+  77               	.LVL7:
+  67:simpleserial-prince.c **** 
+  78               		.loc 1 67 0
+  79 001e 80E0      		ldi r24,0
+  80 0020 0895      		ret
+  81               		.cfi_endproc
+  82               	.LFE12:
+  84               	.global	InitializeState
+  86               	InitializeState:
+  87               	.LFB13:
+  70:simpleserial-prince.c ****     uint8_t i;
+  88               		.loc 1 70 0
+  89               		.cfi_startproc
+  90               	.LVL8:
+  91               	/* prologue: function */
+  92               	/* frame size = 0 */
+  93               	/* stack size = 0 */
+  94               	.L__stack_usage = 0
+  95 0022 E0E0      		ldi r30,lo8(state)
+  96 0024 F0E0      		ldi r31,hi8(state)
+  97               	.LVL9:
+  98               	.L8:
+  75:simpleserial-prince.c ****     }
+  99               		.loc 1 75 0 discriminator 3
+ 100 0026 DC01      		movw r26,r24
+ 101 0028 2D91      		ld r18,X+
+ 102 002a CD01      		movw r24,r26
+ 103               	.LVL10:
+ 104 002c 2193      		st Z+,r18
+ 105               	.LVL11:
+  73:simpleserial-prince.c ****     {
+ 106               		.loc 1 73 0 discriminator 3
+ 107 002e B0E0      		ldi r27,hi8(state+8)
+ 108 0030 E030      		cpi r30,lo8(state+8)
+ 109 0032 FB07      		cpc r31,r27
+ 110 0034 01F4      		brne .L8
+ 111               	/* epilogue start */
+  77:simpleserial-prince.c **** 
+ 112               		.loc 1 77 0
+ 113 0036 0895      		ret
+ 114               		.cfi_endproc
+ 115               	.LFE13:
+ 117               	.global	get_pt
+ 119               	get_pt:
+ 120               	.LFB14:
+  80:simpleserial-prince.c ****     InitializeState(pt); // state is plaintext and need to get from serialport
+ 121               		.loc 1 80 0
+ 122               		.cfi_startproc
+ 123               	.LVL12:
+ 124 0038 1F93      		push r17
+ 125               	.LCFI0:
+ 126               		.cfi_def_cfa_offset 4
+ 127               		.cfi_offset 17, -3
+ 128 003a CF93      		push r28
+ 129               	.LCFI1:
+ 130               		.cfi_def_cfa_offset 5
+ 131               		.cfi_offset 28, -4
+ 132 003c DF93      		push r29
+ 133               	.LCFI2:
+ 134               		.cfi_def_cfa_offset 6
+ 135               		.cfi_offset 29, -5
+ 136               	/* prologue: function */
+ 137               	/* frame size = 0 */
+ 138               	/* stack size = 3 */
+ 139               	.L__stack_usage = 3
+  81:simpleserial-prince.c **** 	//aes_indep_enc_pretrigger(pt);
+ 140               		.loc 1 81 0
+ 141 003e 0E94 0000 		call InitializeState
+ 142               	.LVL13:
+  84:simpleserial-prince.c **** 
+ 143               		.loc 1 84 0
+ 144 0042 C0E0      		ldi r28,0
+ 145 0044 D6E0      		ldi r29,lo8(6)
+ 146 0046 11E0      		ldi r17,lo8(1)
+ 147 0048 1D83      		std Y+5,r17
+  91:simpleserial-prince.c ****     //END_ENCRYPTION_KEY_SCHEDULE();
+ 148               		.loc 1 91 0
+ 149 004a 60E0      		ldi r22,lo8(roundKeys)
+ 150 004c 70E0      		ldi r23,hi8(roundKeys)
+ 151 004e 80E0      		ldi r24,lo8(key)
+ 152 0050 90E0      		ldi r25,hi8(key)
+ 153 0052 0E94 0000 		call RunEncryptionKeySchedule
+ 154               	.LVL14:
+  96:simpleserial-prince.c ****     //END_ENCRYPTION();
+ 155               		.loc 1 96 0
+ 156 0056 60E0      		ldi r22,lo8(roundKeys)
+ 157 0058 70E0      		ldi r23,hi8(roundKeys)
+ 158 005a 80E0      		ldi r24,lo8(state)
+ 159 005c 90E0      		ldi r25,hi8(state)
+ 160 005e 0E94 0000 		call Encrypt
+ 161               	.LVL15:
+ 100:simpleserial-prince.c ****     
+ 162               		.loc 1 100 0
+ 163 0062 1E83      		std Y+6,r17
+ 104:simpleserial-prince.c **** 	return 0x00;
+ 164               		.loc 1 104 0
+ 165 0064 40E0      		ldi r20,lo8(state)
+ 166 0066 50E0      		ldi r21,hi8(state)
+ 167 0068 68E0      		ldi r22,lo8(8)
+ 168 006a 70E0      		ldi r23,0
+ 169 006c 82E7      		ldi r24,lo8(114)
+ 170 006e 0E94 0000 		call simpleserial_put
+ 171               	.LVL16:
+ 106:simpleserial-prince.c **** 
+ 172               		.loc 1 106 0
+ 173 0072 80E0      		ldi r24,0
+ 174               	/* epilogue start */
+ 175 0074 DF91      		pop r29
+ 176 0076 CF91      		pop r28
+ 177 0078 1F91      		pop r17
+ 178 007a 0895      		ret
+ 179               		.cfi_endproc
+ 180               	.LFE14:
+ 182               	.global	InitializeDevice
+ 184               	InitializeDevice:
+ 185               	.LFB20:
+ 186               		.cfi_startproc
+ 187               	/* prologue: function */
+ 188               	/* frame size = 0 */
+ 189               	/* stack size = 0 */
+ 190               	.L__stack_usage = 0
+ 191 007c 0895      		ret
+ 192               		.cfi_endproc
+ 193               	.LFE20:
+ 195               	.global	StopDevice
+ 197               	StopDevice:
+ 198               	.LFB17:
+ 114:simpleserial-prince.c **** 
+ 115:simpleserial-prince.c **** 
+ 116:simpleserial-prince.c **** void InitializeDevice()
+ 117:simpleserial-prince.c **** {
+ 118:simpleserial-prince.c **** //#if defined(DEBUG) && (DEBUG_LOW == (DEBUG_LOW & DEBUG))
+ 119:simpleserial-prince.c **** //    stdout = &mystdout;
+ 120:simpleserial-prince.c **** //#endif
+ 121:simpleserial-prince.c **** }
+ 122:simpleserial-prince.c **** 
+ 123:simpleserial-prince.c **** void StopDevice()
+ 124:simpleserial-prince.c **** {
+ 199               		.loc 1 124 0
+ 200               		.cfi_startproc
+ 201               	/* prologue: function */
+ 202               	/* frame size = 0 */
+ 203               	/* stack size = 0 */
+ 204               	.L__stack_usage = 0
+ 205 007e 0895      		ret
+ 206               		.cfi_endproc
+ 207               	.LFE17:
+ 209               		.section	.text.startup,"ax",@progbits
+ 210               	.global	main
+ 212               	main:
+ 213               	.LFB18:
+ 125:simpleserial-prince.c **** #if defined(DEBUG) && (DEBUG_LOW == (DEBUG_LOW & DEBUG))
+ 126:simpleserial-prince.c ****     sleep_cpu();
+ 127:simpleserial-prince.c **** #endif
+ 128:simpleserial-prince.c **** }
+ 129:simpleserial-prince.c **** 
+ 130:simpleserial-prince.c **** 
+ 131:simpleserial-prince.c **** 
+ 132:simpleserial-prince.c **** 
+ 133:simpleserial-prince.c **** 
+ 134:simpleserial-prince.c **** int main(void)
+ 135:simpleserial-prince.c **** {
+ 214               		.loc 1 135 0
+ 215               		.cfi_startproc
+ 216               	/* prologue: function */
+ 217               	/* frame size = 0 */
+ 218               	/* stack size = 0 */
+ 219               	.L__stack_usage = 0
+ 136:simpleserial-prince.c **** 	//uint8_t tmp[KEY_LENGTH] = {DEFAULT_KEY};
+ 137:simpleserial-prince.c **** 	
+ 138:simpleserial-prince.c **** 	
+ 139:simpleserial-prince.c **** 
+ 140:simpleserial-prince.c **** 	//Chipwhisperer initialize
+ 141:simpleserial-prince.c ****     platform_init(); //this is in the hall folder, find a way to describe the platform XMEGA
+ 220               		.loc 1 141 0
+ 221 0000 0E94 0000 		call platform_init
+ 222               	.LVL17:
+ 142:simpleserial-prince.c ****     init_uart();
+ 223               		.loc 1 142 0
+ 224 0004 0E94 0000 		call init_uart0
+ 225               	.LVL18:
+ 143:simpleserial-prince.c ****     trigger_setup();
+ 226               		.loc 1 143 0
+ 227 0008 81E0      		ldi r24,lo8(1)
+ 228 000a 8093 0106 		sts 1537,r24
+ 144:simpleserial-prince.c **** 	//
+ 145:simpleserial-prince.c **** 	
+ 146:simpleserial-prince.c **** 	InitializeDevice(); //prints the terminal in debug mode, ineffective
+ 147:simpleserial-prince.c **** 	
+ 148:simpleserial-prince.c **** 	
+ 149:simpleserial-prince.c **** 	
+ 150:simpleserial-prince.c **** 	
+ 151:simpleserial-prince.c **** 	
+ 152:simpleserial-prince.c **** 	
+ 153:simpleserial-prince.c **** 	//aes_indep_init();
+ 154:simpleserial-prince.c **** 	//aes_indep_key(tmp);
+ 155:simpleserial-prince.c **** 
+ 156:simpleserial-prince.c ****     /* Uncomment this to get a HELLO message for debug */
+ 157:simpleserial-prince.c **** 
+ 158:simpleserial-prince.c ****     putch('h');
+ 229               		.loc 1 158 0
+ 230 000e 88E6      		ldi r24,lo8(104)
+ 231 0010 0E94 0000 		call output_ch_0
+ 232               	.LVL19:
+ 159:simpleserial-prince.c ****     putch('e');
+ 233               		.loc 1 159 0
+ 234 0014 85E6      		ldi r24,lo8(101)
+ 235 0016 0E94 0000 		call output_ch_0
+ 236               	.LVL20:
+ 160:simpleserial-prince.c ****     putch('l');
+ 237               		.loc 1 160 0
+ 238 001a 8CE6      		ldi r24,lo8(108)
+ 239 001c 0E94 0000 		call output_ch_0
+ 240               	.LVL21:
+ 161:simpleserial-prince.c ****     putch('l');
+ 241               		.loc 1 161 0
+ 242 0020 8CE6      		ldi r24,lo8(108)
+ 243 0022 0E94 0000 		call output_ch_0
+ 244               	.LVL22:
+ 162:simpleserial-prince.c ****     putch('o');
+ 245               		.loc 1 162 0
+ 246 0026 8FE6      		ldi r24,lo8(111)
+ 247 0028 0E94 0000 		call output_ch_0
+ 248               	.LVL23:
+ 163:simpleserial-prince.c ****     putch('\n');
+ 249               		.loc 1 163 0
+ 250 002c 8AE0      		ldi r24,lo8(10)
+ 251 002e 0E94 0000 		call output_ch_0
+ 252               	.LVL24:
+ 164:simpleserial-prince.c **** 
+ 165:simpleserial-prince.c **** 	simpleserial_init();
+ 253               		.loc 1 165 0
+ 254 0032 0E94 0000 		call simpleserial_init
+ 255               	.LVL25:
+ 166:simpleserial-prince.c ****     simpleserial_addcmd('k', KEY_SIZE, get_key); //Key size is 16
+ 256               		.loc 1 166 0
+ 257 0036 40E0      		ldi r20,lo8(gs(get_key))
+ 258 0038 50E0      		ldi r21,hi8(gs(get_key))
+ 259 003a 60E1      		ldi r22,lo8(16)
+ 260 003c 70E0      		ldi r23,0
+ 261 003e 8BE6      		ldi r24,lo8(107)
+ 262 0040 0E94 0000 		call simpleserial_addcmd
+ 263               	.LVL26:
+ 167:simpleserial-prince.c ****     simpleserial_addcmd('p', BLOCK_SIZE,  get_pt); //Block size is 8
+ 264               		.loc 1 167 0
+ 265 0044 40E0      		ldi r20,lo8(gs(get_pt))
+ 266 0046 50E0      		ldi r21,hi8(gs(get_pt))
+ 267 0048 68E0      		ldi r22,lo8(8)
+ 268 004a 70E0      		ldi r23,0
+ 269 004c 80E7      		ldi r24,lo8(112)
+ 270 004e 0E94 0000 		call simpleserial_addcmd
+ 271               	.LVL27:
+ 168:simpleserial-prince.c ****     simpleserial_addcmd('x',  0,   reset);
+ 272               		.loc 1 168 0
+ 273 0052 40E0      		ldi r20,lo8(gs(reset))
+ 274 0054 50E0      		ldi r21,hi8(gs(reset))
+ 275 0056 60E0      		ldi r22,0
+ 276 0058 70E0      		ldi r23,0
+ 277 005a 88E7      		ldi r24,lo8(120)
+ 278 005c 0E94 0000 		call simpleserial_addcmd
+ 279               	.LVL28:
+ 280               	.L14:
+ 169:simpleserial-prince.c ****     //simpleserial_addcmd('m', 18, get_mask);
+ 170:simpleserial-prince.c ****     while(1)
+ 171:simpleserial-prince.c ****         simpleserial_get();
+ 281               		.loc 1 171 0 discriminator 1
+ 282 0060 0E94 0000 		call simpleserial_get
+ 283               	.LVL29:
+ 284 0064 00C0      		rjmp .L14
+ 285               		.cfi_endproc
+ 286               	.LFE18:
+ 288               		.comm	roundKeys,24,2
+ 289               		.comm	key,16,2
+ 290               		.comm	state,8,2
+ 291               	.global	expectedCiphertext
+ 292               		.section	.rodata
+ 295               	expectedCiphertext:
+ 296 0000 29        		.byte	41
+ 297 0001 EB        		.byte	-21
+ 298 0002 B5        		.byte	-75
+ 299 0003 9F        		.byte	-97
+ 300 0004 B1        		.byte	-79
+ 301 0005 EA        		.byte	-22
+ 302 0006 67        		.byte	103
+ 303 0007 FC        		.byte	-4
+ 304               	.global	expectedKey
+ 307               	expectedKey:
+ 308 0008 FF        		.byte	-1
+ 309 0009 EE        		.byte	-18
+ 310 000a DD        		.byte	-35
+ 311 000b CC        		.byte	-52
+ 312 000c BB        		.byte	-69
+ 313 000d AA        		.byte	-86
+ 314 000e 99        		.byte	-103
+ 315 000f 88        		.byte	-120
+ 316 0010 77        		.byte	119
+ 317 0011 66        		.byte	102
+ 318 0012 55        		.byte	85
+ 319 0013 44        		.byte	68
+ 320 0014 33        		.byte	51
+ 321 0015 22        		.byte	34
+ 322 0016 11        		.byte	17
+ 323 0017 00        		.byte	0
+ 324               	.global	expectedPlaintext
+ 327               	expectedPlaintext:
+ 328 0018 EF        		.byte	-17
+ 329 0019 CD        		.byte	-51
+ 330 001a AB        		.byte	-85
+ 331 001b 89        		.byte	-119
+ 332 001c 67        		.byte	103
+ 333 001d 45        		.byte	69
+ 334 001e 23        		.byte	35
+ 335 001f 01        		.byte	1
+ 336               		.text
+ 337               	.Letext0:
+ 338               		.file 2 "/usr/lib/avr/include/stdint.h"
+ 339               		.file 3 "/usr/lib/avr/include/avr/iox128d3.h"
+ 340               		.file 4 "cipher.h"
+ 341               		.file 5 ".././simpleserial/simpleserial.h"
+ 342               		.file 6 ".././hal/hal.h"
+ 343               		.file 7 ".././hal/xmega/uart.h"
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 simpleserial-prince.c
+     /tmp/ccztWzDe.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccztWzDe.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccztWzDe.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccztWzDe.s:5      *ABS*:000000000000003b __RAMPZ__
+     /tmp/ccztWzDe.s:6      *ABS*:0000000000000034 __CCP__
+     /tmp/ccztWzDe.s:7      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccztWzDe.s:8      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccztWzDe.s:14     .text:0000000000000000 reset
+     /tmp/ccztWzDe.s:33     .text:0000000000000004 InitializeKey
+                            *COM*:0000000000000010 key
+     /tmp/ccztWzDe.s:66     .text:000000000000001a get_key
+     /tmp/ccztWzDe.s:86     .text:0000000000000022 InitializeState
+                            *COM*:0000000000000008 state
+     /tmp/ccztWzDe.s:119    .text:0000000000000038 get_pt
+                            *COM*:0000000000000018 roundKeys
+     /tmp/ccztWzDe.s:184    .text:000000000000007c InitializeDevice
+     /tmp/ccztWzDe.s:197    .text:000000000000007e StopDevice
+     /tmp/ccztWzDe.s:212    .text.startup:0000000000000000 main
+     /tmp/ccztWzDe.s:295    .rodata:0000000000000000 expectedCiphertext
+     /tmp/ccztWzDe.s:307    .rodata:0000000000000008 expectedKey
+     /tmp/ccztWzDe.s:327    .rodata:0000000000000018 expectedPlaintext
+
+UNDEFINED SYMBOLS
+RunEncryptionKeySchedule
+Encrypt
+simpleserial_put
+platform_init
+init_uart0
+output_ch_0
+simpleserial_init
+simpleserial_addcmd
+simpleserial_get
+__do_copy_data
+__do_clear_bss
